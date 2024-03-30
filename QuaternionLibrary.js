@@ -1,3 +1,44 @@
+import * as THREE from 'three';
+
+const quaternion = new THREE.Quaternion();
+quaternion.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), Math.PI / 2 );
+
+const vector = new THREE.Vector3( 1, 0, 0 );
+vector.applyQuaternion( quaternion );
+
+import * as THREE from 'three';
+
+const width = window.innerWidth, height = window.innerHeight;
+
+// init
+
+const camera = new THREE.PerspectiveCamera( 70, width / height, 0.01, 10 );
+camera.position.z = 1;
+
+const scene = new THREE.Scene();
+
+const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
+const material = new THREE.MeshNormalMaterial();
+
+const mesh = new THREE.Mesh( geometry, material );
+scene.add( mesh );
+
+const renderer = new THREE.WebGLRenderer( { antialias: true } );
+renderer.setSize( width, height );
+renderer.setAnimationLoop( animation );
+document.body.appendChild( renderer.domElement );
+
+// animation
+
+function animation( time ) {
+
+	mesh.rotation.x = time / 2000;
+	mesh.rotation.y = time / 1000;
+
+	renderer.render( scene, camera );
+
+}
+
 class Vector3
 {
     constructor(x, y, z)
@@ -81,6 +122,15 @@ class RotationQuaternion
         return RotationQuaternion.ConstructQuaternionFromAxes(t_0, t_1, t_2, r_3);
     }
 
+    PreMultiply(anotherQuaternion)
+    {
+        t_0 = (this.q_0*anotherQuaternion.GetQ_0() - this.q_1*anotherQuaternion.GetQ_1() - this.q_2*anotherQuaternion.GetQ_2() - this.q_3*anotherQuaternion.GetQ_3());
+        t_1 = (this.q_1*anotherQuaternion.GetQ_0() + this.q_0*anotherQuaternion.GetQ_1() - this.q_3*anotherQuaternion.GetQ_2() + this.q_2*anotherQuaternion.GetQ_3());
+        t_2 = (this.q_2*anotherQuaternion.GetQ_0() + this.q_3*anotherQuaternion.GetQ_1() + this.q_0*anotherQuaternion.GetQ_2() - this.q_1*anotherQuaternion.GetQ_3());
+        t_3 = (this.q_3*anotherQuaternion.GetQ_0() - this.q_2*anotherQuaternion.GetQ_1() + this.q_1*anotherQuaternion.GetQ_2() + this.q_0*anotherQuaternion.GetQ_3());
+        return RotationQuaternion.ConstructQuaternionFromAxes(t_0, t_1, t_2, r_3);
+    }
+
     GetInverse()
     {
         return RotationQuaternion.ConstructQuaternionFromAxes(this.q_0, -this.q_1, -this.q_2, -this.q_3);
@@ -102,5 +152,12 @@ class RotationQuaternion
         result = this.PostMultiply(vectorAsQuat).PostMultiply(inverseQuat);
 
         return new Vector3(result.GetQ_1(), result.GetQ_2(), result.GetQ_3())
+    }
+
+    ApplyToThreeObject(threeObject)
+    {
+        threeQuat = THREE.Quaternion(this.q_0, this.q_1, this.q_2, this.q_3);
+
+        threeObject.applyQuaternion(threeQuat);
     }
 }
