@@ -1,5 +1,5 @@
 import "./style.css";
-
+import { RotationQuaternion, Vector3 } from "./QuaternionLibrary";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
@@ -35,13 +35,8 @@ scene.add(light);
 function animate() {
   requestAnimationFrame(animate);
 
-  const quaternionX = new THREE.Quaternion();
-  quaternionX.setFromAxisAngle(
-    new THREE.Vector3(1, 0, 0).normalize(),
-    Math.PI / 360
-  );
-
-  marsMesh.applyQuaternion(quaternionX);
+  const q = new RotationQuaternion(1, 1, 1, Math.PI / 360);
+  q.ApplyToThreeObject(marsMesh);
 
   renderer.render(scene, camera);
 }
