@@ -88,7 +88,7 @@ class Euler {
 
     setFromQuaternion(q, order, update)
     {
-
+        
     }
 
     setFromVector3(v, order)
