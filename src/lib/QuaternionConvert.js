@@ -98,3 +98,24 @@ export function convertMatrixToQuaternion(matrix) {
 
   return { q_0, q_1, q_2, q_3 };
 }
+
+
+export function convertEulerToQuaternion(euler) {
+  const x = euler.GetX;
+  const y = euler.GetY;
+  const z = euler.GetZ;
+
+  const cx = Math.cos((x * Math.PI) / 180 / 2);
+  const sx = Math.sin((x * Math.PI) / 180 / 2);
+  const cy = Math.cos((y * Math.PI) / 180 / 2);
+  const sy = Math.sin((y * Math.PI) / 180 / 2);
+  const cz = Math.cos((z * Math.PI) / 180 / 2);
+  const sz = Math.sin((z * Math.PI) / 180 / 2);
+
+  const w = cx * cy * cz + sx * sy * sz;
+  const quaternionX = sx * cy * cz - cx * sy * sz;
+  const quaternionY = cx * sy * cz + sx * cy * sz;
+  const quaternionZ = cx * cy * sz - sx * sy * cz;
+
+  return { quaternionX, quaternionY, quaternionZ, w };
+}
