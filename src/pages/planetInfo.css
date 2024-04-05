@@ -1,0 +1,7 @@
+.planet-info-container {
+  background-color: #161718;
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  overflow-y: hidden;
+}

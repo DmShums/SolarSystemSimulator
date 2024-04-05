@@ -1,0 +1,20 @@
+.info {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 33vh;
+  margin-top: 33vh;
+  height: fit-content;
+}
+
+.info h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.info p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}

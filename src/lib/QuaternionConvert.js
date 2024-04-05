@@ -21,8 +21,8 @@ export function convertQuaternionToAxis(quaternion) {
   let y;
   let z;
 
-  if (q_0 != 1) {
-    angle = 2 * (Math.cos(q0) ^ -1);
+  if (q_0 !== 1) {
+    angle = 2 * (Math.cos(q_0) ^ -1);
     x = q_1 / Math.sin(angle / 2);
     y = q_2 / Math.sin(angle / 2);
     z = q_3 / Math.sin(angle / 2);
@@ -97,4 +97,24 @@ export function convertMatrixToQuaternion(matrix) {
   q_3 /= length;
 
   return { q_0, q_1, q_2, q_3 };
+}
+
+export function convertEulerToQuaternion(euler) {
+  const x = euler.GetX;
+  const y = euler.GetY;
+  const z = euler.GetZ;
+
+  const cx = Math.cos((x * Math.PI) / 180 / 2);
+  const sx = Math.sin((x * Math.PI) / 180 / 2);
+  const cy = Math.cos((y * Math.PI) / 180 / 2);
+  const sy = Math.sin((y * Math.PI) / 180 / 2);
+  const cz = Math.cos((z * Math.PI) / 180 / 2);
+  const sz = Math.sin((z * Math.PI) / 180 / 2);
+
+  const w = cx * cy * cz + sx * sy * sz;
+  const quaternionX = sx * cy * cz - cx * sy * sz;
+  const quaternionY = cx * sy * cz + sx * cy * sz;
+  const quaternionZ = cx * cy * sz - sx * sy * cz;
+
+  return { quaternionX, quaternionY, quaternionZ, w };
 }
