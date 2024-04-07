@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import Planet from "../components/planet/Planet";
 import PlanetInfo from "../components/planetInfo/PlanetInfo";
+import BurgerMenu from "../components/burgerMenu/BurgerMenu";
 
 import "./planetInfo.css";
 
@@ -43,6 +44,7 @@ const PlanetInfoPage = () => {
     <div className="planet-info-container">
       <PlanetInfo info={info} />
       <Planet planetName={planetName} />
+      <BurgerMenu />
     </div>
   );
 };
