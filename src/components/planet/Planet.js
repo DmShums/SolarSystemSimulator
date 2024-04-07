@@ -5,8 +5,29 @@ import { RotationQuaternion } from "../../lib/QuaternionLibrary";
 import "./styles.css";
 
 import mars from "../../imgs/mars.jpg";
+import earth from "../../imgs/earth.jpg";
+import jupiter from "../../imgs/jupiter.jpg";
+import pluto from "../../imgs/pluto.jpg";
+import saturn from "../../imgs/saturn.jpg";
+import neptune from "../../imgs/neptune.jpg";
+import uranus from "../../imgs/uranus.jpg";
+import sun from "../../imgs/sun.jpg";
+import venus from "../../imgs/venus.jpg";
+
+const planetImages = {
+  mars,
+  earth,
+  jupiter,
+  pluto,
+  saturn,
+  neptune,
+  uranus,
+  sun,
+  venus,
+};
 
 const Planet = (props) => {
+  const planetName = props.planetName;
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -30,7 +51,7 @@ const Planet = (props) => {
 
     const geometry = new THREE.IcosahedronGeometry(1, 8);
     const material = new THREE.MeshPhongMaterial({
-      map: loader.load(mars),
+      map: loader.load(planetImages[planetName]),
     });
     const marsMesh = new THREE.Mesh(geometry, material);
     scene.add(marsMesh);
