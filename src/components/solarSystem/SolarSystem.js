@@ -119,6 +119,7 @@ const SolarSystem = () => {
     addPlanet(sun);
     addPlanet(mercury);
     addPlanet(venus);
+    addPlanet(earth);
     /////////////////
     const animate = () => {
       requestAnimationFrame(animate);
@@ -141,7 +142,10 @@ const SolarSystem = () => {
     };
     animate();
 
+    const animTimeout = setInterval(animate, 100);
+
     return () => {
+      clearInterval(animTimeout)
       cancelAnimationFrame(animate);
       renderer.dispose();
 
