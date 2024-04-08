@@ -9,6 +9,7 @@ import sky4 from "../../imgs/sky4.png";
 import mercuryTex from "../../imgs/mercury.jpg";
 import venusTex from "../../imgs/venus.jpg";
 import sunTex from "../../imgs/sun.jpg";
+import earthTex from "../../imgs/earth.jpg";
 
 const SolarSystem = () => {
   const [children, setChildren] = useState([]);
@@ -31,7 +32,7 @@ const SolarSystem = () => {
     return [x,y,z,rotation];
   }
 
-  function createPlanet(size, texture, ring){
+  function createPlanet(size, texture, position, ring,){
     const textureload = new THREE.TextureLoader();
 
     const geometry = new THREE.SphereGeometry(size, 45, 35);
@@ -41,7 +42,7 @@ const SolarSystem = () => {
 
     const planet = new THREE.Mesh(geometry, material);
     sceneRef.current.add(planet);
-    planet.position.x = 0;
+    planet.position.x = position;
     planet.position.y = 0;
     planet.position.z = 0;
     planet.needsUpdate = true;
@@ -107,19 +108,20 @@ const SolarSystem = () => {
       sky4,
     ]);
 
-    const ambientLight = new THREE.AmbientLight(0x935353);
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF);
     scene.add(ambientLight);
 
-    const sun = {"planet": createPlanet(60, sunTex), planetConfig:{"a":0, "b":0, "c":0, "d":0.15}, "ID":0};
-    const mercury = {"planet": createPlanet(25, mercuryTex), planetConfig:{"a":500, "b":250, "c":300, "d":0.05}, "ID":1};
-    const venus = {"planet": createPlanet(30, venusTex), planetConfig:{"a":600, "b":350, "c":300, "d":0.1}, "ID":2};
-    
+    const sun = {"planet": createPlanet(60, sunTex, 50), planetConfig:{"a":0, "b":0, "c":0, "d":0.15}, "ID":0};
+    const mercury = {"planet": createPlanet(15, mercuryTex, -40), planetConfig:{"a":500, "b":250, "c":300, "d":0.05}, "ID":1};
+    const venus = {"planet": createPlanet(30, venusTex, -110), planetConfig:{"a":600, "b":350, "c":300, "d":0.1}, "ID":2};
+    const earth = {"planet": createPlanet(50, earthTex, -250), planetConfig:{"a":700, "b":450, "c":300, "d":0.1}, "ID":3};
+
     addPlanet(sun);
     addPlanet(mercury);
     addPlanet(venus);
-
     /////////////////
     const animate = () => {
+      requestAnimationFrame(animate);
       const curTime = performance.now()/1000;
       for(let planet of children)
       {
@@ -128,9 +130,6 @@ const SolarSystem = () => {
         console.log(`New: X:${newTransform[0]};Y:${newTransform[1]};Z:${newTransform[2]}`);
 
         console.log(`Before: X:${planet.planet.position.x};Y:${planet.planet.position.y};Z:${planet.planet.position.z}`);
-        // planet.planet.position.x = newTransform[0];
-        // planet.planet.position.y = newTransform[1];
-        // planet.planet.position.z = newTransform[2];
 
         planet.planet.position.set(newTransform[0], newTransform[1], newTransform[2]);
         console.log(`After: X:${planet.planet.position.x};Y:${planet.planet.position.y};Z:${planet.planet.position.z}`);
@@ -139,7 +138,6 @@ const SolarSystem = () => {
       }
 
       renderer.render(scene, camera);
-      requestAnimationFrame(animate);
     };
     animate();
 
