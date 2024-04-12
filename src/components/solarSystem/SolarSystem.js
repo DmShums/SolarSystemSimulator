@@ -1,11 +1,14 @@
-import React, { Children, useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RotationQuaternion } from "../../lib/QuaternionLibrary";
-import sky1 from "../../imgs/sky1.png";
-import sky2 from "../../imgs/sky2.png";
-import sky3 from "../../imgs/sky3.png";
-import sky4 from "../../imgs/sky4.png";
+import sky1 from "../../imgs/box1.jpg";
+import sky2 from "../../imgs/box2.jpg";
+import sky3 from "../../imgs/box3.jpg";
+import sky4 from "../../imgs/box4.jpg";
+import sky5 from "../../imgs/box5.jpg";
+import sky6 from "../../imgs/box6.jpg";
+
 import mercuryTex from "../../imgs/mercury.jpg";
 import venusTex from "../../imgs/venus.jpg";
 import sunTex from "../../imgs/sun.jpg";
@@ -98,16 +101,39 @@ const SolarSystem = () => {
     orbit.enablePan = false;
     camera.position.set(-90, 140, 140);
     orbit.update();
-
+    orbit.minDistance = 500;
+    orbit.maxDistance = 1000;
+    
     const cubeTextureLoader = new THREE.CubeTextureLoader();
     scene.background = cubeTextureLoader.load([
       sky1,
       sky2,
       sky3,
       sky4,
-      sky1,
-      sky4,
+      sky5,
+      sky6,
     ]);
+    // const materialArray = [];
+    // const texture_ft = new THREE.TextureLoader().load(sky1);
+    // const texture_bk = new THREE.TextureLoader().load(sky3);
+    // const texture_up = new THREE.TextureLoader().load(sky4);
+    // const texture_dn = new THREE.TextureLoader().load(sky1);
+    // const texture_rt = new THREE.TextureLoader().load(sky4);
+    // const texture_lf = new THREE.TextureLoader().load(sky2);
+      
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_rt }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_lf }));
+
+    // for (let i = 0; i < 6; i++){
+    //   materialArray[i].side = THREE.BackSide;
+    // }
+    // const skyboxGeo = new THREE.BoxGeometry( 3000, 3000, 3000);
+    // const skybox = new THREE.Mesh(skyboxGeo, materialArray);
+    // scene.add(skybox);  
 
     const ambientLight = new THREE.AmbientLight(0xFFFFFF);
     scene.add(ambientLight);
@@ -152,7 +178,7 @@ const SolarSystem = () => {
     return () => {
       cancelAnimationFrame(animate);
       renderer.dispose();
-
+      //scene.remove(skybox);
       scene.traverse((obj) => {
         if (obj instanceof THREE.Mesh) {
           // Dispose of geometry and material
