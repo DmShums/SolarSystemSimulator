@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Children, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RotationQuaternion } from "../../lib/QuaternionLibrary";
@@ -12,27 +12,25 @@ import sunTex from "../../imgs/sun.jpg";
 import earthTex from "../../imgs/earth.jpg";
 
 const SolarSystem = () => {
-  const [children, setChildren] = useState([]);
-
   function addPlanet(newPlanet){
-    setChildren([...children, newPlanet]);
+    childrenRef.current.push(newPlanet);
   };
 
-  function removePlanet (planetID){
-    setChildren(children.filter((child) => child["ID"] !== planetID));
-  };
+  // function removePlanet (planetID){
+  //   setChildren(children.filter((child) => child["ID"] !== planetID));
+  // };
 
   function getNewPlanetTransform(planetConfig, time){
     const x = planetConfig["a"] * Math.cos(time);
-    const y = planetConfig["b"] * Math.sin(time);
-    const z = planetConfig["c"] * Math.sin(time);
+    const z = planetConfig["b"] * Math.sin(time);
+    const y = planetConfig["c"] * Math.sin(time);
 
-    const rotation = new RotationQuaternion(0,0,1,planetConfig["d"] * Math.PI);
+    const rotation = new RotationQuaternion(0,1,0,planetConfig["d"] * Math.PI);
 
     return [x,y,z,rotation];
   }
 
-  function createPlanet(size, texture, position, ring,){
+  function createPlanet(size, texture, ring,){
     const textureload = new THREE.TextureLoader();
 
     const geometry = new THREE.SphereGeometry(size, 45, 35);
@@ -42,7 +40,7 @@ const SolarSystem = () => {
 
     const planet = new THREE.Mesh(geometry, material);
     sceneRef.current.add(planet);
-    planet.position.x = position;
+    planet.position.x = 0;
     planet.position.y = 0;
     planet.position.z = 0;
     planet.needsUpdate = true;
@@ -73,9 +71,11 @@ const SolarSystem = () => {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const rendererRef = useRef(null);
+  const childrenRef = useRef(null);
 
   // Set up scene, camera, renderer in useEffect
   useEffect(() => {
+    const children = [];
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -88,6 +88,7 @@ const SolarSystem = () => {
     sceneRef.current = scene;
     cameraRef.current = camera;
     rendererRef.current = renderer;
+    childrenRef.current = children;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -111,29 +112,35 @@ const SolarSystem = () => {
     const ambientLight = new THREE.AmbientLight(0xFFFFFF);
     scene.add(ambientLight);
 
-    const sun = {"planet": createPlanet(60, sunTex, 50), planetConfig:{"a":0, "b":0, "c":0, "d":0.15}, "ID":0};
-    const mercury = {"planet": createPlanet(15, mercuryTex, -40), planetConfig:{"a":500, "b":250, "c":300, "d":0.05}, "ID":1};
-    const venus = {"planet": createPlanet(30, venusTex, -110), planetConfig:{"a":600, "b":350, "c":300, "d":0.1}, "ID":2};
-    const earth = {"planet": createPlanet(50, earthTex, -250), planetConfig:{"a":700, "b":450, "c":300, "d":0.1}, "ID":3};
+    const sun = {"planet": createPlanet(60, sunTex), planetConfig:{"a":0, "b":0, "c":0, "d":0.015}, "ID":0};
+    const mercury = {"planet": createPlanet(15, mercuryTex), planetConfig:{"a":100, "b":100, "c":50, "d":0.005}, "ID":1};
+    const venus = {"planet": createPlanet(30, venusTex), planetConfig:{"a":250, "b":250, "c":-50, "d":0.001}, "ID":2};
+    const earth = {"planet": createPlanet(50, earthTex), planetConfig:{"a":400, "b":550, "c":60, "d":0.001}, "ID":3};
 
-    addPlanet(sun);
-    addPlanet(mercury);
-    addPlanet(venus);
-    addPlanet(earth);
+    // addPlanet(sun);
+    // addPlanet(mercury);
+    // addPlanet(venus);
+    // addPlanet(earth);
+    children.push(sun);
+    children.push(mercury);
+    children.push(venus);
+    children.push(earth);
+
     /////////////////
     const animate = () => {
       requestAnimationFrame(animate);
-      const curTime = performance.now()/1000;
+      const curTime = performance.now()/1500;
+      console.log("<---------------------------------------------------------->");
+      console.log("Time:", curTime);
       for(let planet of children)
       {
+        console.log(planet);
         const newTransform = getNewPlanetTransform(planet.planetConfig, curTime);
 
-        console.log(`New: X:${newTransform[0]};Y:${newTransform[1]};Z:${newTransform[2]}`);
+        console.log(`Before: X:${planet["planet"].position.x};Y:${planet["planet"].position.y};Z:${planet["planet"].position.z}`);
 
-        console.log(`Before: X:${planet.planet.position.x};Y:${planet.planet.position.y};Z:${planet.planet.position.z}`);
-
-        planet.planet.position.set(newTransform[0], newTransform[1], newTransform[2]);
-        console.log(`After: X:${planet.planet.position.x};Y:${planet.planet.position.y};Z:${planet.planet.position.z}`);
+        planet["planet"].position.set(newTransform[0], newTransform[1], newTransform[2]);
+        console.log(`After: X:${planet["planet"].position.x};Y:${planet["planet"].position.y};Z:${planet["planet"].position.z}`);
 
         newTransform[3].ApplyToThreeObject(planet["planet"]);
       }
@@ -142,10 +149,7 @@ const SolarSystem = () => {
     };
     animate();
 
-    const animTimeout = setInterval(animate, 100);
-
     return () => {
-      clearInterval(animTimeout)
       cancelAnimationFrame(animate);
       renderer.dispose();
 
