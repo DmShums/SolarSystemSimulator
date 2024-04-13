@@ -2,17 +2,25 @@ import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RotationQuaternion } from "../../lib/QuaternionLibrary";
-import sky1 from "../../imgs/box1.jpg";
-import sky2 from "../../imgs/box2.jpg";
-import sky3 from "../../imgs/box3.jpg";
-import sky4 from "../../imgs/box4.jpg";
-import sky5 from "../../imgs/box5.jpg";
-import sky6 from "../../imgs/box6.jpg";
+import sky1 from "../../imgs/floppface.jpeg";
+import sky2 from "../../imgs/floppaass.jpeg";
+import sky3 from "../../imgs/floppatop.jpeg";
+import sky4 from "../../imgs/floppaleft.jpeg";
+import sky5 from "../../imgs/flopparight.jpeg";
+import sky6 from "../../imgs/floppabottom.jpeg";
 
 import mercuryTex from "../../imgs/mercury.jpg";
 import venusTex from "../../imgs/venus.jpg";
 import sunTex from "../../imgs/sun.jpg";
 import earthTex from "../../imgs/earth.jpg";
+import marsTex from "../../imgs/mars.jpg";
+import jupiterTex from "../../imgs/jupiter.jpg";
+import saturnTex from "../../imgs/saturn.jpg";
+import satRingTex from "../../imgs/saturn_ring.png";
+import uranusTex from "../../imgs/uranus.jpg";
+import urRingTex from "../../imgs/uranus_ring.png";
+import neptuneTex from "../../imgs/neptune.jpg";
+import plutoTex from "../../imgs/pluto.jpg";
 
 const SolarSystem = () => {
   function addPlanet(newPlanet){
@@ -24,6 +32,7 @@ const SolarSystem = () => {
   // };
 
   function getNewPlanetTransform(planetConfig, time){
+    time *= planetConfig["v"];
     const x = planetConfig["a"] * Math.cos(time);
     const z = planetConfig["b"] * Math.sin(time);
     const y = planetConfig["c"] * Math.sin(time);
@@ -52,7 +61,7 @@ const SolarSystem = () => {
     {
       const RingGeo = new THREE.RingGeometry(
         ring.innerRadius,
-        ring.outerRadius, 30
+        ring.outerRadius,
       );
       const RingMat = new THREE.MeshStandardMaterial({
         map:textureload.load(ring.texture),
@@ -61,9 +70,9 @@ const SolarSystem = () => {
       const Ring = new THREE.Mesh(RingGeo, RingMat);
       planet.add(Ring);
 
-      ring.position.x = 0;
-      ring.position.y = 0;
-      ring.position.z = 0;
+      Ring.position.x = 0;
+      Ring.position.y = 0;
+      Ring.position.z = 0;
       Ring.rotation.x = -0.5 *Math.PI;
     }
     return planet;
@@ -84,7 +93,7 @@ const SolarSystem = () => {
       75,
       window.innerWidth / window.innerHeight,
       0.1,
-      1000
+      1500
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -97,13 +106,6 @@ const SolarSystem = () => {
 
     containerRef.current.appendChild(renderer.domElement);
     ///////Init stuff
-    const orbit = new OrbitControls(camera, renderer.domElement);
-    orbit.enablePan = false;
-    camera.position.set(-90, 140, 140);
-    orbit.update();
-    orbit.minDistance = 500;
-    orbit.maxDistance = 1000;
-    
     const cubeTextureLoader = new THREE.CubeTextureLoader();
     scene.background = cubeTextureLoader.load([
       sky1,
@@ -113,35 +115,54 @@ const SolarSystem = () => {
       sky5,
       sky6,
     ]);
+
+    const orbit = new OrbitControls(camera, renderer.domElement);
+    orbit.enablePan = false;
+    camera.position.set(-90, 140, 140);
+    orbit.update();
+    orbit.minDistance = 400;
+    orbit.maxDistance = 1000;
+    
     // const materialArray = [];
     // const texture_ft = new THREE.TextureLoader().load(sky1);
-    // const texture_bk = new THREE.TextureLoader().load(sky3);
-    // const texture_up = new THREE.TextureLoader().load(sky4);
-    // const texture_dn = new THREE.TextureLoader().load(sky1);
-    // const texture_rt = new THREE.TextureLoader().load(sky4);
-    // const texture_lf = new THREE.TextureLoader().load(sky2);
+    // const texture_bk = new THREE.TextureLoader().load(sky2);
+    // const texture_up = new THREE.TextureLoader().load(sky3);
+    // const texture_dn = new THREE.TextureLoader().load(sky4);
+    // const texture_rt = new THREE.TextureLoader().load(sky5);
+    // const texture_lf = new THREE.TextureLoader().load(sky6);
       
-    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
-    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
-    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
-    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn }));
-    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_rt }));
-    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_lf }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft, side : THREE.BackSide }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk, side : THREE.BackSide }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up, side : THREE.BackSide }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn, side : THREE.BackSide }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_rt, side : THREE.BackSide }));
+    // materialArray.push(new THREE.MeshBasicMaterial( { map: texture_lf, side : THREE.BackSide }));
 
-    // for (let i = 0; i < 6; i++){
-    //   materialArray[i].side = THREE.BackSide;
-    // }
-    // const skyboxGeo = new THREE.BoxGeometry( 3000, 3000, 3000);
+    // const skyboxGeo = new THREE.BoxGeometry( 1000, 1000, 1000);
     // const skybox = new THREE.Mesh(skyboxGeo, materialArray);
-    // scene.add(skybox);  
+    // scene.add(skybox);   
 
     const ambientLight = new THREE.AmbientLight(0xFFFFFF);
     scene.add(ambientLight);
 
-    const sun = {"planet": createPlanet(60, sunTex), planetConfig:{"a":0, "b":0, "c":0, "d":0.015}, "ID":0};
-    const mercury = {"planet": createPlanet(15, mercuryTex), planetConfig:{"a":100, "b":100, "c":50, "d":0.005}, "ID":1};
-    const venus = {"planet": createPlanet(30, venusTex), planetConfig:{"a":250, "b":250, "c":-50, "d":0.001}, "ID":2};
-    const earth = {"planet": createPlanet(50, earthTex), planetConfig:{"a":400, "b":550, "c":60, "d":0.001}, "ID":3};
+    const sun = {"planet": createPlanet(85, sunTex), planetConfig:{"a":0, "b":0, "c":0, "d":0.015, "v":0.25}, "ID":0};
+    const mercury = {"planet": createPlanet(1, mercuryTex), planetConfig:{"a":120, "b":120, "c":5, "d":0.005, "v":0.5}, "ID":1};
+    const venus = {"planet": createPlanet(3, venusTex), planetConfig:{"a":130, "b":130, "c":-5, "d":0.001, "v":0.15}, "ID":2};
+    const earth = {"planet": createPlanet(3, earthTex), planetConfig:{"a":140, "b":140, "c":6, "d":0.001, "v":0.05}, "ID":3};
+    const mars = {"planet": createPlanet(2, marsTex), planetConfig:{"a":150, "b":150, "c":3, "d":0.005, "v":0.15}, "ID":4};
+    const jupiter = {"planet": createPlanet(33, jupiterTex), planetConfig:{"a":200, "b":200, "c":2, "d":0.001, "v":0.05}, "ID":5};
+    const saturn = {"planet": createPlanet(27, saturnTex , {
+      innerRadius: 28,
+      outerRadius: 35,
+      texture: satRingTex
+    }), planetConfig:{"a":270, "b":270, "c":10, "d":0.01, "v":0.09}, "ID":6};
+    const uranus = {"planet": createPlanet(12, uranusTex, {
+      innerRadius: 13,
+      outerRadius: 19,
+      texture: urRingTex
+    }), planetConfig:{"a":330, "b":330, "c":-5, "d":0.01, "v":0.07}, "ID":7};
+    const neptune = {"planet": createPlanet(11, neptuneTex), planetConfig:{"a":350, "b":350, "c":-1, "d":0.01, "v":0.3}, "ID":8};
+    const pluto = {"planet": createPlanet(1, plutoTex), planetConfig:{"a":380, "b":380, "c":-1, "d":0.0001, "v":0.12}, "ID":9};
 
     // addPlanet(sun);
     // addPlanet(mercury);
@@ -151,6 +172,12 @@ const SolarSystem = () => {
     children.push(mercury);
     children.push(venus);
     children.push(earth);
+    children.push(mars);
+    children.push(jupiter);
+    children.push(saturn);
+    children.push(uranus);
+    children.push(neptune);
+    children.push(pluto);
 
     /////////////////
     const animate = () => {
@@ -177,8 +204,8 @@ const SolarSystem = () => {
 
     return () => {
       cancelAnimationFrame(animate);
-      renderer.dispose();
       //scene.remove(skybox);
+      renderer.dispose();
       scene.traverse((obj) => {
         if (obj instanceof THREE.Mesh) {
           // Dispose of geometry and material
