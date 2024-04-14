@@ -1,34 +1,29 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { RotationQuaternion } from "../../lib/QuaternionLibrary";
+
 import "./styles.css";
+import * as PlanetRotation from "../../lib/PlanetRotation";
 
-import mars from "../../imgs/mars.jpg";
-import earth from "../../imgs/earth.jpg";
-import jupiter from "../../imgs/jupiter.jpg";
-import pluto from "../../imgs/pluto.jpg";
-import saturn from "../../imgs/saturn.jpg";
-import neptune from "../../imgs/neptune.jpg";
-import uranus from "../../imgs/uranus.jpg";
-import sun from "../../imgs/sun.jpg";
-import venus from "../../imgs/venus.jpg";
-
-const planetImages = {
-  mars,
-  earth,
-  jupiter,
-  pluto,
-  saturn,
-  neptune,
-  uranus,
-  sun,
-  venus,
-};
+const planets = [
+  PlanetRotation.sun,
+  PlanetRotation.mercury,
+  PlanetRotation.venus,
+  PlanetRotation.earth,
+  PlanetRotation.mars,
+  PlanetRotation.jupiter,
+  PlanetRotation.saturn,
+  PlanetRotation.uranus,
+  PlanetRotation.neptune,
+  PlanetRotation.pluto,
+];
 
 const Planet = (props) => {
-  const planetName = props.planetName;
+  const planetIdx = props.planetName;
   const containerRef = useRef(null);
+
+  const planet = planets.find((planet) => planet.ID === parseInt(planetIdx));
+  const cfg = planet.planetConfig;
 
   useEffect(() => {
     const w = window.innerWidth / 2;
@@ -47,23 +42,27 @@ const Planet = (props) => {
 
     new OrbitControls(camera, renderer.domElement);
 
-    const loader = new THREE.TextureLoader();
+    const geometry = new THREE.SphereGeometry(1, 45, 35);
+    const testMesh = new THREE.Mesh(geometry);
 
-    const geometry = new THREE.IcosahedronGeometry(1, 8);
-    const material = new THREE.MeshPhongMaterial({
-      map: loader.load(planetImages[planetName]),
-    });
-    const marsMesh = new THREE.Mesh(geometry, material);
-    scene.add(marsMesh);
+    let planetMesh = planet.planet;
+    planetMesh.parent = testMesh.parent;
+
+    const scale = 1 / planet.size;
+
+    planetMesh.scale.set(scale, scale, scale);
+    scene.add(planetMesh);
 
     const light = new THREE.HemisphereLight("#FFFFFF", "#757575", 1.7);
     scene.add(light);
 
     const animate = () => {
       requestAnimationFrame(animate);
+      const curTime = performance.now() / 1500;
 
-      const q = new RotationQuaternion(1, 1, 1, Math.PI / 360);
-      q.ApplyToThreeObject(marsMesh);
+      const newTransform = PlanetRotation.getNewPlanetTransform(cfg, curTime);
+
+      newTransform[3].ApplyToThreeObject(planetMesh);
 
       renderer.render(scene, camera);
     };
@@ -71,12 +70,10 @@ const Planet = (props) => {
     animate();
 
     return () => {
-      // Cleanup function
       renderer.dispose();
 
       scene.traverse((obj) => {
         if (obj instanceof THREE.Mesh) {
-          // Dispose of geometry and material
           obj.geometry.dispose();
           obj.material.dispose();
         }

@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import PlanetInfoPage from "./pages/PlanetInfoPage";
 import WelcomePage from "./pages/WelcomePage";
 document.body.style.margin = 0;
+document.body.style.fontFamily = "Montserrat";
 
 const router = createBrowserRouter([
   {

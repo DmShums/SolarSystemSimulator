@@ -1,6 +1,6 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { InteractionManager } from 'three.interactive';
+import { InteractionManager } from "three.interactive";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RotationQuaternion } from "../../lib/QuaternionLibrary";
 import sky1 from "../../imgs/floppface.jpeg";
@@ -24,31 +24,36 @@ import neptuneTex from "../../imgs/neptune.jpg";
 import plutoTex from "../../imgs/pluto.jpg";
 
 const SolarSystem = () => {
-  function addPlanet(newPlanet){
+  function addPlanet(newPlanet) {
     childrenRef.current.push(newPlanet);
-  };
+  }
 
   // function removePlanet (planetID){
   //   setChildren(children.filter((child) => child["ID"] !== planetID));
   // };
 
-  function getNewPlanetTransform(planetConfig, time){
+  function getNewPlanetTransform(planetConfig, time) {
     time *= planetConfig["v"];
     const x = planetConfig["a"] * Math.cos(time);
     const z = planetConfig["b"] * Math.sin(time);
     const y = planetConfig["c"] * Math.sin(time);
 
-    const rotation = new RotationQuaternion(0,1,0,planetConfig["d"] * Math.PI);
+    const rotation = new RotationQuaternion(
+      0,
+      1,
+      0,
+      planetConfig["d"] * Math.PI
+    );
 
-    return [x,y,z,rotation];
+    return [x, y, z, rotation];
   }
 
-  function createPlanet(size, texture, ring, clickEvent){
+  function createPlanet(size, texture, ring, clickEvent) {
     const textureload = new THREE.TextureLoader();
 
     const geometry = new THREE.SphereGeometry(size, 45, 35);
     const material = new THREE.MeshStandardMaterial({
-      map:textureload.load(texture)
+      map: textureload.load(texture),
     });
 
     const planet = new THREE.Mesh(geometry, material);
@@ -58,15 +63,14 @@ const SolarSystem = () => {
     planet.position.z = 0;
     planet.needsUpdate = true;
 
-    if(ring)
-    {
+    if (ring) {
       const RingGeo = new THREE.RingGeometry(
         ring.innerRadius,
-        ring.outerRadius,
+        ring.outerRadius
       );
       const RingMat = new THREE.MeshStandardMaterial({
-        map:textureload.load(ring.texture),
-        side : THREE.DoubleSide
+        map: textureload.load(ring.texture),
+        side: THREE.DoubleSide,
       });
       const Ring = new THREE.Mesh(RingGeo, RingMat);
       planet.add(Ring);
@@ -74,12 +78,11 @@ const SolarSystem = () => {
       Ring.position.x = 0;
       Ring.position.y = 0;
       Ring.position.z = 0;
-      Ring.rotation.x = -0.5 *Math.PI;
+      Ring.rotation.x = -0.5 * Math.PI;
     }
 
-    if(clickEvent)
-    {
-      planet.addEventListener('click', clickEvent);
+    if (clickEvent) {
+      planet.addEventListener("click", clickEvent);
     }
 
     return planet;
@@ -134,30 +137,108 @@ const SolarSystem = () => {
     camera.position.set(-90, 140, 140);
     orbit.update();
     orbit.minDistance = 400;
-    orbit.maxDistance = 1000;  
+    orbit.maxDistance = 1000;
 
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF);
+    const ambientLight = new THREE.AmbientLight(0xffffff);
     scene.add(ambientLight);
 
-    const sun = {"planet": createPlanet(85, sunTex, null, (event)=>{console.log("Sun has been clicked!")}), planetConfig:{"a":0, "b":0, "c":0, "d":0.015, "v":0.25}, "ID":0};
-    const mercury = {"planet": createPlanet(1, mercuryTex, null, (event)=>{console.log("Mercury has been clicked!")}), planetConfig:{"a":120, "b":120, "c":5, "d":0.005, "v":0.5}, "ID":1};
-    const venus = {"planet": createPlanet(3, venusTex, null, (event)=>{console.log("Venus has been clicked!")}), planetConfig:{"a":130, "b":130, "c":-5, "d":0.001, "v":0.15}, "ID":2};
-    const earth = {"planet": createPlanet(3, earthTex, null, (event)=>{console.log("Earth has been clicked!")}), planetConfig:{"a":140, "b":140, "c":6, "d":0.001, "v":0.05}, "ID":3};
-    const mars = {"planet": createPlanet(2, marsTex, null, (event)=>{console.log("Mars has been clicked!")}), planetConfig:{"a":150, "b":150, "c":3, "d":0.005, "v":0.15}, "ID":4};
-    const jupiter = {"planet": createPlanet(33, jupiterTex, null, (event)=>{console.log("Jupiter has been clicked!")}), planetConfig:{"a":200, "b":200, "c":2, "d":0.001, "v":0.05}, "ID":5};
-    const saturn = {"planet": createPlanet(27, saturnTex , {
-      innerRadius: 28,
-      outerRadius: 35,
-      texture: satRingTex
-    }, (event)=>{console.log("Saturn has been clicked!")}), planetConfig:{"a":270, "b":270, "c":10, "d":0.01, "v":0.09}, "ID":6};
-    const uranus = {"planet": createPlanet(12, uranusTex, {
-      innerRadius: 13,
-      outerRadius: 19,
-      texture: urRingTex
-    }, (event)=>{console.log("UrAnus has been clicked!")}), planetConfig:{"a":330, "b":330, "c":-5, "d":0.01, "v":0.07}, "ID":7};
-    const neptune = {"planet": createPlanet(11, neptuneTex, null, (event)=>{console.log("Neptune has been clicked!")}), planetConfig:{"a":350, "b":350, "c":-1, "d":0.01, "v":0.3}, "ID":8};
-    const pluto = {"planet": createPlanet(1, plutoTex, null, (event)=>{console.log("Pluto has been clicked!")}), planetConfig:{"a":380, "b":380, "c":-1, "d":0.0001, "v":0.12}, "ID":9};
+    const sun = {
+      planet: createPlanet(85, sunTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/sun";
+      }),
+      planetConfig: { a: 0, b: 0, c: 0, d: 0.015, v: 0.25 },
+      ID: 0,
+    };
 
+    const mercury = {
+      planet: createPlanet(1, mercuryTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/mercury";
+      }),
+      planetConfig: { a: 120, b: 120, c: 5, d: 0.005, v: 0.5 },
+      ID: 1,
+    };
+
+    const venus = {
+      planet: createPlanet(3, venusTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/venus";
+      }),
+      planetConfig: { a: 130, b: 130, c: -5, d: 0.001, v: 0.15 },
+      ID: 2,
+    };
+
+    const earth = {
+      planet: createPlanet(3, earthTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/earth";
+      }),
+      planetConfig: { a: 140, b: 140, c: 6, d: 0.001, v: 0.05 },
+      ID: 3,
+    };
+
+    const mars = {
+      planet: createPlanet(2, marsTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/mars";
+      }),
+      planetConfig: { a: 150, b: 150, c: 3, d: 0.005, v: 0.15 },
+      ID: 4,
+    };
+
+    const jupiter = {
+      planet: createPlanet(33, jupiterTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/jupiter";
+      }),
+      planetConfig: { a: 200, b: 200, c: 2, d: 0.001, v: 0.05 },
+      ID: 5,
+    };
+
+    const saturn = {
+      planet: createPlanet(
+        27,
+        saturnTex,
+        {
+          innerRadius: 28,
+          outerRadius: 35,
+          texture: satRingTex,
+        },
+        (event) => {
+          window.location.href = "http://localhost:3000/planetinfo/saturn";
+        }
+      ),
+      planetConfig: { a: 270, b: 270, c: 10, d: 0.01, v: 0.09 },
+      ID: 6,
+    };
+
+    const uranus = {
+      planet: createPlanet(
+        12,
+        uranusTex,
+        {
+          innerRadius: 13,
+          outerRadius: 19,
+          texture: urRingTex,
+        },
+        (event) => {
+          window.location.href = "http://localhost:3000/planetinfo/uranus";
+        }
+      ),
+      planetConfig: { a: 330, b: 330, c: -5, d: 0.01, v: 0.07 },
+      ID: 7,
+    };
+
+    const neptune = {
+      planet: createPlanet(11, neptuneTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/neptune";
+      }),
+      planetConfig: { a: 350, b: 350, c: -1, d: 0.01, v: 0.3 },
+      ID: 8,
+    };
+
+    const pluto = {
+      planet: createPlanet(1, plutoTex, null, (event) => {
+        window.location.href = "http://localhost:3000/planetinfo/pluto";
+      }),
+      planetConfig: { a: 380, b: 380, c: -1, d: 0.0001, v: 0.12 },
+      ID: 9,
+    };
 
     interactionManager.add(sun.planet);
     interactionManager.add(venus.planet);
@@ -189,16 +270,22 @@ const SolarSystem = () => {
       requestAnimationFrame(animate);
 
       interactionManager.update();
-      const curTime = performance.now()/1500;
+      const curTime = performance.now() / 1500;
       // console.log("<---------------------------------------------------------->");
       // console.log("Time:", curTime);
-      for(let planet of children)
-      {
-        const newTransform = getNewPlanetTransform(planet.planetConfig, curTime);
+      for (let planet of children) {
+        const newTransform = getNewPlanetTransform(
+          planet.planetConfig,
+          curTime
+        );
 
         // console.log(`Before: X:${planet["planet"].position.x};Y:${planet["planet"].position.y};Z:${planet["planet"].position.z}`);
 
-        planet["planet"].position.set(newTransform[0], newTransform[1], newTransform[2]);
+        planet["planet"].position.set(
+          newTransform[0],
+          newTransform[1],
+          newTransform[2]
+        );
         // console.log(`After: X:${planet["planet"].position.x};Y:${planet["planet"].position.y};Z:${planet["planet"].position.z}`);
 
         newTransform[3].ApplyToThreeObject(planet["planet"]);

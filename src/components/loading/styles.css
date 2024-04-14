@@ -1,0 +1,12 @@
+.loading-container {
+  background-color: #161718;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.loading-container > h3 {
+  color: aliceblue;
+}

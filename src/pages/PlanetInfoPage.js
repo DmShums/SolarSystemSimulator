@@ -4,13 +4,28 @@ import { useEffect, useState } from "react";
 import Planet from "../components/planet/Planet";
 import PlanetInfo from "../components/planetInfo/PlanetInfo";
 import BurgerMenu from "../components/burgerMenu/BurgerMenu";
+import Loading from "../components/loading/Loading";
 
 import "./planetInfo.css";
 
+const planetNames = [
+  "sun",
+  "mercury",
+  "venus",
+  "earth",
+  "mars",
+  "jupiter",
+  "saturn",
+  "uranus",
+  "neptune",
+  "pluto",
+];
+
 const PlanetInfoPage = () => {
   const [info, setInfo] = useState("");
-  const planetName = useParams().planet;
+  const planetIdx = useParams().planet;
 
+  const planetName = planetNames[parseInt(planetIdx)];
   const api = "MICl5hgHJiIFbuBnO71leQ==1aNoY4LjWP0ZrUAI";
   useEffect(() => {
     const fetchPlanetData = async () => {
@@ -40,10 +55,14 @@ const PlanetInfoPage = () => {
     fetchPlanetData();
   }, []);
 
+  if (!info) {
+    return <Loading />;
+  }
+
   return (
     <div className="planet-info-container">
       <PlanetInfo info={info} />
-      <Planet planetName={planetName} />
+      <Planet planetName={planetIdx} />
       <BurgerMenu />
     </div>
   );
