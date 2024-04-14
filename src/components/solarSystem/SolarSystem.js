@@ -144,7 +144,7 @@ const SolarSystem = () => {
 
     const sun = {
       planet: createPlanet(85, sunTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/sun";
+        alert("Try to click on planet to see some info!");
       }),
       planetConfig: { a: 0, b: 0, c: 0, d: 0.015, v: 0.25 },
       ID: 0,
@@ -152,7 +152,7 @@ const SolarSystem = () => {
 
     const mercury = {
       planet: createPlanet(1, mercuryTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/mercury";
+        window.location.href = "http://localhost:3000/planetinfo/1";
       }),
       planetConfig: { a: 120, b: 120, c: 5, d: 0.005, v: 0.5 },
       ID: 1,
@@ -160,7 +160,7 @@ const SolarSystem = () => {
 
     const venus = {
       planet: createPlanet(3, venusTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/venus";
+        window.location.href = "http://localhost:3000/planetinfo/2";
       }),
       planetConfig: { a: 130, b: 130, c: -5, d: 0.001, v: 0.15 },
       ID: 2,
@@ -168,7 +168,7 @@ const SolarSystem = () => {
 
     const earth = {
       planet: createPlanet(3, earthTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/earth";
+        window.location.href = "http://localhost:3000/planetinfo/3";
       }),
       planetConfig: { a: 140, b: 140, c: 6, d: 0.001, v: 0.05 },
       ID: 3,
@@ -176,7 +176,7 @@ const SolarSystem = () => {
 
     const mars = {
       planet: createPlanet(2, marsTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/mars";
+        window.location.href = "http://localhost:3000/planetinfo/4";
       }),
       planetConfig: { a: 150, b: 150, c: 3, d: 0.005, v: 0.15 },
       ID: 4,
@@ -184,7 +184,7 @@ const SolarSystem = () => {
 
     const jupiter = {
       planet: createPlanet(33, jupiterTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/jupiter";
+        window.location.href = "http://localhost:3000/planetinfo/5";
       }),
       planetConfig: { a: 200, b: 200, c: 2, d: 0.001, v: 0.05 },
       ID: 5,
@@ -200,7 +200,7 @@ const SolarSystem = () => {
           texture: satRingTex,
         },
         (event) => {
-          window.location.href = "http://localhost:3000/planetinfo/saturn";
+          window.location.href = "http://localhost:3000/planetinfo/6";
         }
       ),
       planetConfig: { a: 270, b: 270, c: 10, d: 0.01, v: 0.09 },
@@ -217,7 +217,7 @@ const SolarSystem = () => {
           texture: urRingTex,
         },
         (event) => {
-          window.location.href = "http://localhost:3000/planetinfo/uranus";
+          window.location.href = "http://localhost:3000/planetinfo/7";
         }
       ),
       planetConfig: { a: 330, b: 330, c: -5, d: 0.01, v: 0.07 },
@@ -226,7 +226,7 @@ const SolarSystem = () => {
 
     const neptune = {
       planet: createPlanet(11, neptuneTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/neptune";
+        window.location.href = "http://localhost:3000/planetinfo/8";
       }),
       planetConfig: { a: 350, b: 350, c: -1, d: 0.01, v: 0.3 },
       ID: 8,
@@ -234,7 +234,7 @@ const SolarSystem = () => {
 
     const pluto = {
       planet: createPlanet(1, plutoTex, null, (event) => {
-        window.location.href = "http://localhost:3000/planetinfo/pluto";
+        window.location.href = "http://localhost:3000/planetinfo/9";
       }),
       planetConfig: { a: 380, b: 380, c: -1, d: 0.0001, v: 0.12 },
       ID: 9,
