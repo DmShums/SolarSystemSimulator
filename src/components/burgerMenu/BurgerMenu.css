@@ -5,7 +5,12 @@
     left: 95%;
     transform: translate( -50px, -50px);
 }
-  
+
+.toggle.active {
+    z-index: 1;
+    transform: translate(0px, -75px);
+}
+
 .toggle span{
     position: relative;
     width: 36px;
@@ -27,10 +32,12 @@
 .toggle.active span:nth-child(1){
     transform: rotate(45deg);
     left: 2px;
+    background: #f1f1f1;
 }
 .toggle.active span:nth-child(2){
     transform: rotate(315deg);
     right: 3px;
+    background: #f1f1f1;
 }
 .toggle.active span:nth-child(3){
     transform: scaleX(0);
@@ -41,12 +48,12 @@
 .sidenav {
     height: 100%;
     width: 250px;
-    transform: translate(-250px);
+    transform: translate(250px);
     margin-left: 0;
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
+    right: 0;
     background-color: #111;
     overflow-x: hidden;
     transition: 0.5s;
@@ -79,7 +86,7 @@
 }
 
 #main {
-    transition: margin-left .5s;
+    /* transition: margin-right .5s; */
     padding: 16px;
 }
 

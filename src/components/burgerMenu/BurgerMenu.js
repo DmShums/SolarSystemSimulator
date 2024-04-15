@@ -4,9 +4,6 @@ import "./BurgerMenu.css";
 const BurgerMenu = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const a = document.querySelector(".sidenav");
-    const b = document.getElementById("main");
-
     function openNav() {
         setIsMenuOpen(true);
     }
@@ -18,9 +15,9 @@ const BurgerMenu = () => {
     return (
         <>
             <div id="mySidenav" className={`sidenav ${isMenuOpen ? 'open' : ''}`}>
-                <a className="closebtn" style={{ cursor: 'pointer' }} id="closeButton" onClick={closeNav}>&times;</a>
+                {/* <a className="closebtn" style={{ cursor: 'pointer' }} id="closeButton" onClick={closeNav}>&times;</a> */}
                 <a className="nav-main" href="/">Main</a>
-                <a className="nav-list" href="/planetinfo/mars">Second</a>
+                <a className="nav-list" href="/planetinfo/4">Second</a>
             </div>
 
             <div id={`main ${isMenuOpen ? 'open' : ''}`}>
