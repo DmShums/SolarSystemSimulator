@@ -31,6 +31,13 @@ import neptuneTex from "../../imgs/neptune.jpg";
 import plutoTex from "../../imgs/pluto.jpg";
 
 const SolarSystem = () => {
+  // Refs for scene, camera, and renderer
+  const containerRef = useRef(null);
+  const sceneRef = useRef(null);
+  const cameraRef = useRef(null);
+  const rendererRef = useRef(null);
+  const childrenRef = useRef(null);
+
   function addPlanet(newPlanet) {
     childrenRef.current.push(newPlanet);
   }
@@ -95,13 +102,6 @@ const SolarSystem = () => {
     return planet;
   }
 
-  // Refs for scene, camera, and renderer
-  const containerRef = useRef(null);
-  const sceneRef = useRef(null);
-  const cameraRef = useRef(null);
-  const rendererRef = useRef(null);
-  const childrenRef = useRef(null);
-
   // Set up scene, camera, renderer in useEffect
   useEffect(() => {
     const children = [];
@@ -143,7 +143,7 @@ const SolarSystem = () => {
     orbit.enablePan = false;
     camera.position.set(-90, 140, 140);
     orbit.update();
-    orbit.minDistance = 400;
+    orbit.minDistance = 200;
     orbit.maxDistance = 1000;
 
     const ambientLight = new THREE.AmbientLight(0xffffff);
@@ -177,7 +177,7 @@ const SolarSystem = () => {
       planet: createPlanet(3, earthTex, null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/3";
       }),
-      planetConfig: { a: 140, b: 140, c: 6, d: 0.001, v: 0.05 },
+      planetConfig: { a: 140, b: 140, c: 15, d: 0.001, v: 0.05 },
       ID: 3,
     };
 
@@ -185,7 +185,7 @@ const SolarSystem = () => {
       planet: createPlanet(2, marsTex, null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/4";
       }),
-      planetConfig: { a: 150, b: 150, c: 3, d: 0.005, v: 0.15 },
+      planetConfig: { a: 150, b: 150, c: -25, d: 0.005, v: 0.15 },
       ID: 4,
     };
 
@@ -193,7 +193,7 @@ const SolarSystem = () => {
       planet: createPlanet(33, jupiterTex, null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/5";
       }),
-      planetConfig: { a: 200, b: 200, c: 2, d: 0.001, v: 0.05 },
+      planetConfig: { a: 200, b: 200, c: 5, d: 0.001, v: 0.05 },
       ID: 5,
     };
 
@@ -210,7 +210,7 @@ const SolarSystem = () => {
           window.location.href = "http://localhost:3000/planetinfo/6";
         }
       ),
-      planetConfig: { a: 270, b: 270, c: 10, d: 0.01, v: 0.09 },
+      planetConfig: { a: 270, b: 270, c: 17, d: 0.01, v: 0.09 },
       ID: 6,
     };
 
@@ -227,7 +227,7 @@ const SolarSystem = () => {
           window.location.href = "http://localhost:3000/planetinfo/7";
         }
       ),
-      planetConfig: { a: 330, b: 330, c: -5, d: 0.01, v: 0.07 },
+      planetConfig: { a: 330, b: 330, c: -15, d: 0.01, v: 0.07 },
       ID: 7,
     };
 
@@ -257,43 +257,35 @@ const SolarSystem = () => {
     interactionManager.add(uranus.planet);
     interactionManager.add(neptune.planet);
     interactionManager.add(pluto.planet);
-    // addPlanet(sun);
-    // addPlanet(mercury);
-    // addPlanet(venus);
-    // addPlanet(earth);
-    children.push(sun);
-    children.push(mercury);
-    children.push(venus);
-    children.push(earth);
-    children.push(mars);
-    children.push(jupiter);
-    children.push(saturn);
-    children.push(uranus);
-    children.push(neptune);
-    children.push(pluto);
+
+    addPlanet(sun);
+    addPlanet(mercury);
+    addPlanet(venus);
+    addPlanet(earth);
+    addPlanet(mars);
+    addPlanet(jupiter);
+    addPlanet(saturn);
+    addPlanet(uranus);
+    addPlanet(neptune);
+    addPlanet(pluto);
 
     /////////////////
     const animate = () => {
       requestAnimationFrame(animate);
 
       interactionManager.update();
-      const curTime = performance.now() / 1500;
-      // console.log("<---------------------------------------------------------->");
-      // console.log("Time:", curTime);
-      for (let planet of children) {
+      const curTime = performance.now() / 1700;
+      for (let planet of childrenRef.current) {
         const newTransform = getNewPlanetTransform(
           planet.planetConfig,
           curTime
         );
-
-        // console.log(`Before: X:${planet["planet"].position.x};Y:${planet["planet"].position.y};Z:${planet["planet"].position.z}`);
 
         planet["planet"].position.set(
           newTransform[0],
           newTransform[1],
           newTransform[2]
         );
-        // console.log(`After: X:${planet["planet"].position.x};Y:${planet["planet"].position.y};Z:${planet["planet"].position.z}`);
 
         newTransform[3].ApplyToThreeObject(planet["planet"]);
       }
