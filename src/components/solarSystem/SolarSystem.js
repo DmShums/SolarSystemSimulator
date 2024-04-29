@@ -3,19 +3,19 @@ import * as THREE from "three";
 import { InteractionManager } from "three.interactive";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RotationQuaternion } from "../../lib/QuaternionLibrary";
-// import sky1 from "../../imgs/floppface.jpeg";
-// import sky2 from "../../imgs/floppaass.jpeg";
-// import sky3 from "../../imgs/floppatop.jpeg";
-// import sky4 from "../../imgs/floppaleft.jpeg";
-// import sky5 from "../../imgs/flopparight.jpeg";
-// import sky6 from "../../imgs/floppabottom.jpeg";
+import sky1 from "../../imgs/floppface.jpeg";
+import sky2 from "../../imgs/floppaass.jpeg";
+import sky3 from "../../imgs/floppatop.jpeg";
+import sky4 from "../../imgs/floppaleft.jpeg";
+import sky5 from "../../imgs/flopparight.jpeg";
+import sky6 from "../../imgs/floppabottom.jpeg";
 
-import sky1 from "../../imgs/box1.jpg";
-import sky2 from "../../imgs/box2.jpg";
-import sky3 from "../../imgs/box3.jpg";
-import sky4 from "../../imgs/box4.jpg";
-import sky5 from "../../imgs/box5.jpg";
-import sky6 from "../../imgs/box6.jpg";
+// import sky1 from "../../imgs/box1.jpg";
+// import sky2 from "../../imgs/box2.jpg";
+// import sky3 from "../../imgs/box3.jpg";
+// import sky4 from "../../imgs/box4.jpg";
+// import sky5 from "../../imgs/box5.jpg";
+// import sky6 from "../../imgs/box6.jpg";
 
 import mercuryTex from "../../imgs/mercury.jpg";
 import venusTex from "../../imgs/venus.jpg";
@@ -42,9 +42,19 @@ const SolarSystem = () => {
     childrenRef.current.push(newPlanet);
   }
 
-  // function removePlanet (planetID){
-  //   setChildren(children.filter((child) => child["ID"] !== planetID));
-  // };
+  function removePlanet (planetID){
+    for(let planet of childrenRef.current)
+    {
+      if(planet.ID === planetID)
+      {
+        planet.planet.geometry.dispose();
+        planet.planet.material.dispose();
+        sceneRef.current.remove(planet.planet);
+      }
+    }
+
+    childrenRef.current = childrenRef.current.filter((child) => child.ID !== planetID);
+  };
 
   function getNewPlanetTransform(planetConfig, time) {
     time *= planetConfig["v"];
