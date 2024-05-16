@@ -30,8 +30,13 @@ import urRingTex from "../../imgs/uranus_ring.png";
 import neptuneTex from "../../imgs/neptune.jpg";
 import plutoTex from "../../imgs/pluto.jpg";
 
-const SolarSystem = () => {
+const SolarSystem = ({ name }) => {
   // Refs for scene, camera, and renderer
+
+  console.log(name);
+
+  // TODO: Fetch data from json server based on name value
+
   const containerRef = useRef(null);
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
