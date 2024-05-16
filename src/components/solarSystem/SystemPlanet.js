@@ -7,8 +7,6 @@ const SystemPlanet = ({params}) => {
     getCurrentCoordinates()
     {
         const time = performance.now()/1000;
-
-        
     }
 
     useEffect(() => {

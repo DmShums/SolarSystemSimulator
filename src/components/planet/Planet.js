@@ -5,6 +5,13 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "./styles.css";
 import * as PlanetRotation from "../../lib/PlanetRotation";
 
+import sky1 from "../../imgs/box1.jpg";
+import sky2 from "../../imgs/box2.jpg";
+import sky3 from "../../imgs/box3.jpg";
+import sky4 from "../../imgs/box4.jpg";
+import sky5 from "../../imgs/box5.jpg";
+import sky6 from "../../imgs/box6.jpg";
+
 const planets = [
   PlanetRotation.sun,
   PlanetRotation.mercury,
@@ -52,6 +59,16 @@ const Planet = (props) => {
 
     planetMesh.scale.set(scale, scale, scale);
     scene.add(planetMesh);
+
+    const cubeTextureLoader = new THREE.CubeTextureLoader();
+    scene.background = cubeTextureLoader.load([
+      sky1,
+      sky2,
+      sky3,
+      sky4,
+      sky5,
+      sky6,
+    ]);
 
     const light = new THREE.HemisphereLight("#FFFFFF", "#757575", 1.7);
     scene.add(light);
