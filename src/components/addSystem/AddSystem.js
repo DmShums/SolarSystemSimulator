@@ -86,11 +86,17 @@ const AddSystem = () => {
       // If successful, log the response
       const responseData = await addResponse.json();
       console.log("Data added successfully:", responseData);
+  
+      // Reset the state variables
+      setImageUrls([]);
+      setName("");
+
+      window.location.reload()
     } catch (error) {
       console.error("Error adding data:", error);
     }
-  };  
-    
+  };
+   
 
   // Render the model if imageUrl is available
   useEffect(() => {
