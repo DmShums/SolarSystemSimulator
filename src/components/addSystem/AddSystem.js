@@ -1,83 +1,81 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import './AddSystem.css';
+import { useDropzone } from 'react-dropzone';
 
-const AddSystem = ({ fileURL }) => {
+import BurgerMenu from "../burgerMenu/BurgerMenu";
+import Loading from "../loading/Loading";
+
+const cloudName = 'YOUR_CLOUD_NAME'; // Replace with your Cloudinary cloud name
+const unsignedUploadPreset = 'YOUR_UNSIGNED_UPLOAD_PRESET'; // Replace with your Cloudinary unsigned upload preset
+
+const AddSystem = () => {
   const containerRef = useRef(null);
   const scene = useRef(new THREE.Scene()).current;
   const [model, setModel] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
 
-  // useEffect(() => {
-  //   const w = window.innerWidth;
-  //   const h = window.innerHeight;
+  const onDrop = async (acceptedFiles) => {
+    const file = acceptedFiles[0];
 
-  //   scene.clear();
-  //   scene.background = new THREE.Color('#242424');
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', unsignedUploadPreset);
 
-  //   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-  //   scene.add(ambientLight);
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
 
-  //   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-  //   directionalLight.position.set(0, 1, 0);
-  //   scene.add(directionalLight);
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
 
-  //   const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-  //   camera.position.z = 60;
-
-  //   const renderer = new THREE.WebGLRenderer();
-  //   renderer.setSize(w, h);
-  //   containerRef.current.appendChild(renderer.domElement);
-
-  //   const loader = new GLTFLoader();
-  //   loader.load(
-  //     fileURL,
-  //     (gltf) => {
-  //       const object = gltf.scene;
-  //       setModel(object); // Save the loaded model to state
-
-  //       scene.add(object);
-
-  //       const controls = new OrbitControls(camera, renderer.domElement);
-  //       controls.enableDamping = true;
-
-  //       const animate = () => {
-  //         requestAnimationFrame(animate);
-  //         renderer.render(scene, camera);
-  //       };
-
-  //       animate();
-
-  //       return () => {
-  //         // Cleanup function
-  //         renderer.dispose();
-
-  //         scene.traverse((obj) => {
-  //           if (obj instanceof THREE.Mesh) {
-  //             // Dispose of geometry and material
-  //             obj.geometry.dispose();
-  //             obj.material.dispose();
-  //           }
-  //         });
-  //       };
-  //     },
-  //     undefined,
-  //     (error) => {
-  //       console.error('Error loading 3D object:', error);
-  //     }
-  //   );
-  // }, [fileURL, scene]);
-
-  // // Function to save the model to your database
-  const saveModelToDatabase = () => {
-    // Implement your database saving logic here
-    console.log('Saving model to database:', model);
+      const data = await response.json();
+      setImageUrl(data.secure_url);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop,
+    maxFiles: 1,
+  });
+
+  // Render the model if imageUrl is available
+  useEffect(() => {
+    if (imageUrl) {
+      // Render image preview
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => {
+        const width = 200; // Set width of the preview image
+        const height = (img.height / img.width) * width; // Calculate height to maintain aspect ratio
+        img.width = width;
+        img.height = height;
+        containerRef.current.appendChild(img);
+      };
+    }
+  }, [imageUrl]);
 
   return (
     <div className="addSystem-card" ref={containerRef}>
-      <button onClick={saveModelToDatabase}>Save Model</button>
+      <BurgerMenu />
+      <div {...getRootProps({ className: 'add-meal__dropzone' })}>
+        <input {...getInputProps()} />
+        <p>Drag & drop an image here, or click to select an image</p>
+        <em>(Only *.jpeg and *.png images will be accepted)</em>
+      </div>
+      {/* {model && <button onClick={saveModelToDatabase}>Save Model to Database</button>} */}
+      {model && <button onClick={alert('saved')}>Save Model to Database</button>}
     </div>
   );
 };

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./BurgerMenu.css";
 import { Link } from "react-router-dom";
-import AddSystem from '../addSystem/AddSystem'; // Import the AddSystem component
-import { Modal } from 'react-bootstrap'; // Import the Modal component from react-bootstrap
 
 const BurgerMenu = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,20 +14,12 @@ const BurgerMenu = () => {
         setIsMenuOpen(false);
     }
 
-    function openModal() {
-        setIsModalOpen(true); // Open the modal
-    }
-
-    function closeModal() {
-        setIsModalOpen(false); // Close the modal
-    }
-
     return (
         <>
             <div id="mySidenav" className={`sidenav ${isMenuOpen ? 'open' : ''}`}>
                 <a className="closebtn" style={{ cursor: 'pointer' }} id="closeButton" onClick={closeNav}>&times;</a>
                 <Link className="nav-main" to="/">Solar System</Link>
-                <a className="nav-list-end" onClick={openModal} style={{ cursor: 'pointer' }}>-- Add system --</a> {/* Open the modal when clicking on "Add system" */}
+                <Link className="nav-main" to="/addsystem">-- Add system --</Link>
             </div>
 
             <div id={`main ${isMenuOpen ? 'open' : ''}`}>
@@ -41,15 +31,6 @@ const BurgerMenu = () => {
                     </div>
                 </a>
             </div>
-
-            <Modal show={isModalOpen} onHide={closeModal}> {/* The modal */}
-                <Modal.Header closeButton>
-                    <Modal.Title>Add System</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <AddSystem /> {/* The AddSystem component */}
-                </Modal.Body>
-            </Modal>
         </>
     );
 }
