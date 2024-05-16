@@ -43,6 +43,7 @@ const AddSystem = () => {
         let urls = [...imageUrls];
         urls.push(data.secure_url);
         setImageUrls(urls);
+    
       } catch (error) {
         console.error("Error uploading image:", error);
       }

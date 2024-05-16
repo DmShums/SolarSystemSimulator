@@ -59,17 +59,19 @@ const SolarSystem = ({ index }) => {
   useEffect(() => {
     const loadTextures = async () => {
       try {
-        setTextures([...defaultTextures]);
         const response = await fetch(`http://localhost:3001/systems/`);
         const data = await response.json();
         const thisSystem = await data[parseInt(index.index)];
         const texturesUrls = await thisSystem["urls"];
 
-        for (let i = 0; i < texturesUrls.length; i++) {
+        setTextures([...defaultTextures]);
+
+        for (let i = 0; i < texturesUrls[0].length; i++) {
           let newTextures = textures;
-          newTextures[i] = texturesUrls[i][0];
+          newTextures[i] = texturesUrls[0][i];
           setTextures(newTextures);
         }
+        console.log(textures);
         createSystem();
       } catch (error) {
         createSystem();
