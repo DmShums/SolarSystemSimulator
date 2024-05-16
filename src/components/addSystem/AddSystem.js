@@ -18,6 +18,8 @@ const AddSystem = () => {
   const [model, setModel] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
 
+  const [name, setName] = useState("");
+
   const onDrop = async (acceptedFiles) => {
     const file = acceptedFiles[0];
 
@@ -56,6 +58,40 @@ const AddSystem = () => {
     maxFiles: 1,
   });
 
+  const handleNameChange = (e) => {
+    const name = e.target.value;
+    setName(name);
+  };
+
+  const handleSubmit = async () => {
+    // Prepare the data to be added
+    const newData = {
+      [name]: [imageUrls[imageUrls.length - 1]],
+    };
+  
+    try {
+      const addResponse = await fetch(`http://localhost:3001/systems`, {
+        method: "POST", // Use POST method to add new data
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newData),
+      });
+  
+      // Check if the addition was successful
+      if (!addResponse.ok) {
+        throw new Error("Failed to add new data");
+      }
+  
+      // If successful, log the response
+      const responseData = await addResponse.json();
+      console.log("Data added successfully:", responseData);
+    } catch (error) {
+      console.error("Error adding data:", error);
+    }
+  };
+    
+
   // Render the model if imageUrl is available
   useEffect(() => {
     if (imageUrls) {
@@ -77,13 +113,14 @@ const AddSystem = () => {
   return (
     <div className="addSystem-card" ref={containerRef}>
       <BurgerMenu />
+      <input type="text" placeholder="Name" onChange={handleNameChange} />
       <div {...getRootProps({ className: "add-meal__dropzone" })}>
         <input {...getInputProps()} />
         <p>Drag & drop an image here, or click to select an image</p>
         <em>(Only *.jpeg and *.png images will be accepted)</em>
       </div>
-      {/* {model && <button onClick={saveModelToDatabase}>Save Model to Database</button>} */}
-      {/* {model && <button onClick={alert('saved')}>Save Model to Database</button>} */}
+
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
