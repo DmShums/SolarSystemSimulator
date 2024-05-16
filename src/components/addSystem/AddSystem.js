@@ -28,7 +28,13 @@ const AddSystem = () => {
         if (!response.ok) throw new Error("Failed to upload image");
 
         const data = await response.json();
-        setImageUrls((prevUrls) => [...prevUrls, data.secure_url]);
+
+        // setImageUrls((prevUrls) => [...prevUrls, data.secure_url]);
+
+        let urls = [...imageUrls];
+        urls.push(data.secure_url);
+        setImageUrls(urls);
+    
       } catch (error) {
         console.error("Error uploading image:", error);
       }
