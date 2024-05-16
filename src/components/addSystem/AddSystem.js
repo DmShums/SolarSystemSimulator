@@ -61,12 +61,12 @@ const AddSystem = () => {
   };
 
   const handleSubmit = async () => {
-    const newData = {
-      name: name,
-      urls: [imageUrls],
-    };
-
     try {
+      const newData = {
+        name: name,
+        urls: [imageUrls],
+      };
+
       const addResponse = await fetch(`http://localhost:3001/systems`, {
         method: "POST", // Use POST method to add new data
         headers: {
@@ -74,7 +74,6 @@ const AddSystem = () => {
         },
         body: JSON.stringify(newData),
       });
-
       // Check if the addition was successful
       if (!addResponse.ok) {
         throw new Error("Failed to add new data");
@@ -109,7 +108,12 @@ const AddSystem = () => {
   return (
     <div className="addSystem-card" ref={containerRef}>
       <BurgerMenu />
-      <input type="text" placeholder="Name" onChange={handleNameChange} />
+      <input
+        className="addSystem-card-input"
+        type="text"
+        placeholder="Name"
+        onChange={handleNameChange}
+      />
       <div {...getRootProps({ className: "add-meal__dropzone" })}>
         <input {...getInputProps()} />
         <p>Drag & drop an image here, or click to select an image</p>
