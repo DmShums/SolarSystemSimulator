@@ -42,19 +42,19 @@ const SolarSystem = () => {
     childrenRef.current.push(newPlanet);
   }
 
-  function removePlanet (planetID){
-    for(let planet of childrenRef.current)
-    {
-      if(planet.ID === planetID)
-      {
+  function removePlanet(planetID) {
+    for (let planet of childrenRef.current) {
+      if (planet.ID === planetID) {
         planet.planet.geometry.dispose();
         planet.planet.material.dispose();
         sceneRef.current.remove(planet.planet);
       }
     }
 
-    childrenRef.current = childrenRef.current.filter((child) => child.ID !== planetID);
-  };
+    childrenRef.current = childrenRef.current.filter(
+      (child) => child.ID !== planetID
+    );
+  }
 
   function getNewPlanetTransform(planetConfig, time) {
     time *= planetConfig["v"];
@@ -153,7 +153,7 @@ const SolarSystem = () => {
     orbit.enablePan = false;
     camera.position.set(-90, 140, 140);
     orbit.update();
-    
+
     orbit.minDistance = 100;
     orbit.maxDistance = 1000;
 

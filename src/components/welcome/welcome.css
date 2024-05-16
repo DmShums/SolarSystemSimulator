@@ -1,0 +1,15 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.about-container {
+  position: absolute;
+  top: -45%;
+  left: 5%;
+  transform: rotate(90deg);
+  z-index: 2;
+}
+
+.about-container > * {
+  transform: rotate(-90deg);
+}
