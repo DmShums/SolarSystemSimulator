@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./BurgerMenu.css";
 import { Link } from "react-router-dom";
 
 const BurgerMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal
+  const [systemNames, setSystemNames] = useState([]); // State to store system keys
+
+  useEffect(() => {
+    const fetchSystems = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/systems");
+        const systems = await response.json();
+        if (systems.length > 0) {
+          let names = [];
+          for (let i = 0; i < systems.length; i++) {
+            names = [...names, systems[i]["name"]];
+          }
+          setSystemNames(names);
+        }
+      } catch (error) {
+        console.error("Error fetching systems:", error);
+      }
+    };
+
+    fetchSystems();
+  }, []);
 
   function openNav() {
     setIsMenuOpen(true);
@@ -13,8 +33,6 @@ const BurgerMenu = () => {
   function closeNav() {
     setIsMenuOpen(false);
   }
-
-  // TODO: load all systems
 
   return (
     <>
@@ -33,6 +51,12 @@ const BurgerMenu = () => {
         <Link className="nav-main" to="/addsystem">
           -- Add system --
         </Link>
+
+        {systemNames.map((name, index) => (
+          <Link className="nav-main" key={index} to={`/${index}`}>
+            {name} System
+          </Link>
+        ))}
       </div>
 
       <div id={`main ${isMenuOpen ? "open" : ""}`}>

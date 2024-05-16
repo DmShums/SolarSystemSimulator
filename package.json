@@ -9,6 +9,7 @@
         "autoprefixer": "^10.4.19",
         "bootstrap": "^5.3.3",
         "framer-motion": "^11.2.2",
+        "json-server": "^1.0.0-beta.0",
         "postcss-cli": "^11.0.0",
         "react": "^18.2.0",
         "react-bootstrap": "^2.10.2",

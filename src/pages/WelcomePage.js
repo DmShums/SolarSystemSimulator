@@ -4,12 +4,12 @@ import Welcome from "../components/welcome/Welcome";
 import { useParams } from "react-router-dom";
 
 const WelcomePage = () => {
-  const systemName = useParams().system;
+  const index = useParams().index;
 
   return (
     <div>
       <Welcome />
-      <SolarSystem name={{ systemName }} />
+      <SolarSystem index={{ index }} />
       <BurgerMenu />
     </div>
   );

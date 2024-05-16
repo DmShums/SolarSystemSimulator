@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { InteractionManager } from "three.interactive";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -30,12 +30,61 @@ import urRingTex from "../../imgs/uranus_ring.png";
 import neptuneTex from "../../imgs/neptune.jpg";
 import plutoTex from "../../imgs/pluto.jpg";
 
-const SolarSystem = ({ name }) => {
-  // Refs for scene, camera, and renderer
+const defaultTextures = [
+  sunTex,
+  mercuryTex,
+  venusTex,
+  earthTex,
+  marsTex,
+  jupiterTex,
+  saturnTex,
+  uranusTex,
+  neptuneTex,
+  plutoTex,
+];
 
-  console.log(name);
+const SolarSystem = ({ index }) => {
+  const [textures, setTextures] = useState([
+    sunTex,
+    mercuryTex,
+    venusTex,
+    earthTex,
+    marsTex,
+    jupiterTex,
+    saturnTex,
+    uranusTex,
+    neptuneTex,
+    plutoTex,
+  ]);
 
-  // TODO: Fetch data from json server based on name value
+  useEffect(() => {
+    const loadTextures = async () => {
+      try {
+        setTextures(defaultTextures);
+        const response = await fetch(`http://localhost:3001/systems/`);
+        const data = await response.json();
+        const thisSystem = await data[parseInt(index.index)];
+        const texturesUrls = await thisSystem["urls"];
+
+        for (let i = 0; i < texturesUrls.length; i++) {
+          let newTextures = textures;
+          newTextures[i] = texturesUrls[i][0];
+          setTextures(newTextures);
+        }
+        createSystem();
+      } catch (error) {
+        createSystem();
+      }
+    };
+
+    if (index) {
+      const canvases = document.getElementsByTagName("canvas");
+      Array.from(canvases).forEach((canvas) => {
+        canvas.parentNode.removeChild(canvas);
+      });
+      loadTextures();
+    }
+  }, [index]);
 
   const containerRef = useRef(null);
   const sceneRef = useRef(null);
@@ -118,7 +167,7 @@ const SolarSystem = ({ name }) => {
   }
 
   // Set up scene, camera, renderer in useEffect
-  useEffect(() => {
+  const createSystem = () => {
     const children = [];
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -166,7 +215,7 @@ const SolarSystem = ({ name }) => {
     scene.add(ambientLight);
 
     const sun = {
-      planet: createPlanet(85, sunTex, null, (event) => {
+      planet: createPlanet(85, textures[0], null, (event) => {
         alert("Try to click on planet to see some info!");
       }),
       planetConfig: { a: 0, b: 0, c: 0, d: 0.015, v: 0.25 },
@@ -174,7 +223,7 @@ const SolarSystem = ({ name }) => {
     };
 
     const mercury = {
-      planet: createPlanet(1, mercuryTex, null, (event) => {
+      planet: createPlanet(1, textures[1], null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/1";
       }),
       planetConfig: { a: 120, b: 120, c: 5, d: 0.005, v: 0.5 },
@@ -182,7 +231,7 @@ const SolarSystem = ({ name }) => {
     };
 
     const venus = {
-      planet: createPlanet(3, venusTex, null, (event) => {
+      planet: createPlanet(3, textures[2], null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/2";
       }),
       planetConfig: { a: 130, b: 130, c: -5, d: 0.001, v: 0.15 },
@@ -190,7 +239,7 @@ const SolarSystem = ({ name }) => {
     };
 
     const earth = {
-      planet: createPlanet(3, earthTex, null, (event) => {
+      planet: createPlanet(3, textures[3], null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/3";
       }),
       planetConfig: { a: 140, b: 140, c: 15, d: 0.001, v: 0.05 },
@@ -198,7 +247,7 @@ const SolarSystem = ({ name }) => {
     };
 
     const mars = {
-      planet: createPlanet(2, marsTex, null, (event) => {
+      planet: createPlanet(2, textures[4], null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/4";
       }),
       planetConfig: { a: 150, b: 150, c: -25, d: 0.005, v: 0.15 },
@@ -206,7 +255,7 @@ const SolarSystem = ({ name }) => {
     };
 
     const jupiter = {
-      planet: createPlanet(33, jupiterTex, null, (event) => {
+      planet: createPlanet(33, textures[5], null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/5";
       }),
       planetConfig: { a: 200, b: 200, c: 5, d: 0.001, v: 0.05 },
@@ -216,7 +265,7 @@ const SolarSystem = ({ name }) => {
     const saturn = {
       planet: createPlanet(
         27,
-        saturnTex,
+        textures[6],
         {
           innerRadius: 28,
           outerRadius: 35,
@@ -233,7 +282,7 @@ const SolarSystem = ({ name }) => {
     const uranus = {
       planet: createPlanet(
         12,
-        uranusTex,
+        textures[7],
         {
           innerRadius: 13,
           outerRadius: 19,
@@ -248,7 +297,7 @@ const SolarSystem = ({ name }) => {
     };
 
     const neptune = {
-      planet: createPlanet(11, neptuneTex, null, (event) => {
+      planet: createPlanet(11, textures[8], null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/8";
       }),
       planetConfig: { a: 350, b: 350, c: -1, d: 0.01, v: 0.3 },
@@ -256,7 +305,7 @@ const SolarSystem = ({ name }) => {
     };
 
     const pluto = {
-      planet: createPlanet(1, plutoTex, null, (event) => {
+      planet: createPlanet(1, textures[9], null, (event) => {
         window.location.href = "http://localhost:3000/planetinfo/9";
       }),
       planetConfig: { a: 380, b: 380, c: -1, d: 0.0001, v: 0.12 },
@@ -322,7 +371,7 @@ const SolarSystem = ({ name }) => {
         }
       });
     };
-  }, []);
+  };
 
   return <div ref={containerRef} />;
 };

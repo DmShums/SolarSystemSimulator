@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: <WelcomePage />,
   },
   {
-    path: "/:system",
+    path: "/:index",
     element: <WelcomePage />,
   },
   {

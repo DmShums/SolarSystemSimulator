@@ -1,0 +1,23 @@
+{
+  "systems": [
+    {
+      "id": "c743",
+      "name": "test2",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715868305/info-icon_dvtcql.png"
+        ]
+      ]
+    },
+    {
+      "id": "46a5",
+      "name": "test3",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715871845/earth_msdxsq.jpg",
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715871853/earth_gjt6ih.jpg"
+        ]
+      ]
+    }
+  ]
+}
