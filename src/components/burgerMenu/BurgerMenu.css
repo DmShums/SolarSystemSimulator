@@ -102,3 +102,10 @@
     margin-top: auto;
     margin-bottom: 70px;
 }
+
+#mySidenav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
