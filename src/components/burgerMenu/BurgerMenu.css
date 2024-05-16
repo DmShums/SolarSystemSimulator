@@ -6,21 +6,21 @@
     transform: translate( -50px, -50px);
 }
 
-.toggle.active {
+/* .toggle.active {
     z-index: 1;
     transform: translate(0px, -75px);
-}
+} */
 
 .toggle span{
     position: relative;
     width: 36px;
     height: 4px;
-    background: black;
+    background: white;
     display: block;
     margin: 8px;
     transition: 0.5s;
 }
-.toggle span:nth-child(1){
+/* .toggle span:nth-child(1){
     transform-origin: left;
 }
 .toggle span:nth-child(2){
@@ -41,7 +41,7 @@
 }
 .toggle.active span:nth-child(3){
     transform: scaleX(0);
-}
+} */
 
 /* burger menu */
 
@@ -58,6 +58,8 @@
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidenav.open {
@@ -93,4 +95,10 @@
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+
+
+.nav-list-end {
+    margin-top: auto;
+    margin-bottom: 70px;
 }

@@ -1,0 +1,14 @@
+.addSystem-card {
+    position: absolute;
+    z-index: 9999; /* Increase the value to bring it to the front */
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #111111;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}

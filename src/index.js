@@ -8,6 +8,8 @@ import WelcomePage from "./pages/WelcomePage";
 document.body.style.margin = 0;
 document.body.style.fontFamily = "Montserrat";
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
 const router = createBrowserRouter([
   {
     path: "/",

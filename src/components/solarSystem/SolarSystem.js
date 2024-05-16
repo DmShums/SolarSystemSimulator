@@ -143,7 +143,7 @@ const SolarSystem = () => {
     orbit.enablePan = false;
     camera.position.set(-90, 140, 140);
     orbit.update();
-    orbit.minDistance = 400;
+    orbit.minDistance = 100;
     orbit.maxDistance = 1000;
 
     const ambientLight = new THREE.AmbientLight(0xffffff);
