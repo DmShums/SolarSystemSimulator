@@ -3,6 +3,8 @@ import { useDropzone } from "react-dropzone";
 import BurgerMenu from "../burgerMenu/BurgerMenu";
 import "./AddSystem.css";
 
+import Welcome from "../welcome/Welcome";
+
 const cloudName = "dbhq2lekx";
 const unsignedUploadPreset = "ml_default";
 const apiKey = "171148788834972";
@@ -86,6 +88,7 @@ const AddSystem = () => {
 
   return (
     <div className="addSystem-card">
+      <Welcome />
       <BurgerMenu />
       <h1 className="addSystem-card-header">Create your star system</h1>
       <input

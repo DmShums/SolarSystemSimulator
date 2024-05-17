@@ -84,7 +84,7 @@ const SolarSystem = ({ index }) => {
       }
     };
 
-    if (index) {
+    if (index !== undefined) {
       const canvases = document.getElementsByTagName("canvas");
       Array.from(canvases).forEach((canvas) => {
         canvas.parentNode.removeChild(canvas);

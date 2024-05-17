@@ -1,0 +1,10 @@
+.del-sys-img {
+    z-index: 10000;
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    width: 40px;
+    cursor: pointer;
+}
