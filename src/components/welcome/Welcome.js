@@ -27,15 +27,7 @@ const Welcome = () => {
             Genral information about this project
           </h2>
           <p>
-            In this project, our primary focus is to explore and compare
-            different approaches of how rotations and orientations in 3D space
-            can be represented mathematically. In particular, we would like to
-            delve into the concept of quaternions/Euler angles and how 3D
-            transformations are implemented under the hood.
-          </p>
-          <p>
-            Our main objective was to develop a solar system simulation
-            employing advanced rotation techniques as discussed earlier.
+            Our main objective in this project was to develop a plausible solar system simulation.
             Leveraging Three.js, we crafted a sophisticated visualization of our
             three-dimensional space.
           </p>

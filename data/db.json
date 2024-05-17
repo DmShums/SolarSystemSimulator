@@ -1,3 +1,72 @@
 {
-  "systems": []
+  "systems": [
+    {
+      "id": "c743",
+      "name": "test2",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715868305/info-icon_dvtcql.png"
+        ]
+      ]
+    },
+    {
+      "id": "54e6",
+      "name": "earth",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715882224/earth_rlslgn.jpg",
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715882226/earth_nochyk.jpg",
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715882229/earth_ramdgg.jpg",
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715882233/earth_abbadg.jpg"
+        ]
+      ]
+    },
+    {
+      "id": "6599",
+      "name": "test3",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715927940/floppface_lw7afl.jpg",
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715927946/earth_lqouky.jpg"
+        ]
+      ]
+    },
+    {
+      "id": "8028",
+      "name": "FlopaVerse",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715896801/photo_2024-01-25_00-36-14_hh3sij.jpg"
+        ]
+      ]
+    },
+    {
+      "id": "4844",
+      "name": "another_flopa_verse",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715896884/flops_je0zw0.jpg"
+        ]
+      ]
+    },
+    {
+      "id": "1754",
+      "name": "",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715942101/photo_2024-03-11_13-23-58_jrllrx.jpg"
+        ]
+      ]
+    },
+    {
+      "id": "8eb6",
+      "name": "catoverse",
+      "urls": [
+        [
+          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715942132/photo_2024-03-11_13-23-58_nbwzkt.jpg"
+        ]
+      ]
+    }
+  ]
+>>>>>>> refs/remotes/origin/develop
 }

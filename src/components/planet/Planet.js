@@ -60,15 +60,15 @@ const Planet = (props) => {
     planetMesh.scale.set(scale, scale, scale);
     scene.add(planetMesh);
 
-    const cubeTextureLoader = new THREE.CubeTextureLoader();
-    scene.background = cubeTextureLoader.load([
-      sky1,
-      sky2,
-      sky3,
-      sky4,
-      sky5,
-      sky6,
-    ]);
+    // const cubeTextureLoader = new THREE.CubeTextureLoader();
+    // scene.background = cubeTextureLoader.load([
+    //   sky1,
+    //   sky2,
+    //   sky3,
+    //   sky4,
+    //   sky5,
+    //   sky6,
+    // ]);
 
     const light = new THREE.HemisphereLight("#FFFFFF", "#757575", 1.7);
     scene.add(light);

@@ -16,6 +16,7 @@ import sky3 from "../../imgs/box3.jpg";
 import sky4 from "../../imgs/box4.jpg";
 import sky5 from "../../imgs/box5.jpg";
 import sky6 from "../../imgs/box6.jpg";
+import belt1 from "../../imgs/belt1.png"
 
 import mercuryTex from "../../imgs/mercury.jpg";
 import venusTex from "../../imgs/venus.jpg";
@@ -78,9 +79,9 @@ const SolarSystem = ({ index }) => {
           setTextures(newTextures);
         }
 
-        createSystem();
+        createSystem(false);
       } catch (error) {
-        createSystem();
+        createSystem(true);
       }
     };
 
@@ -98,9 +99,14 @@ const SolarSystem = ({ index }) => {
   const cameraRef = useRef(null);
   const rendererRef = useRef(null);
   const childrenRef = useRef(null);
+  const beltRef = useRef(null);
 
   function addPlanet(newPlanet) {
     childrenRef.current.push(newPlanet);
+  }
+
+  function addBelt(newBelt) {
+    beltRef.current.push(newBelt);
   }
 
   function removePlanet(planetID) {
@@ -117,6 +123,17 @@ const SolarSystem = ({ index }) => {
     );
   }
 
+  function getNewBeltRotation(speed)
+  {
+    const rotation = new RotationQuaternion(
+      0,
+      1,
+      0,
+      speed * Math.PI
+    );
+    return rotation;
+  }
+
   function getNewPlanetTransform(planetConfig, time) {
     time *= planetConfig["v"];
     const x = planetConfig["a"] * Math.cos(time);
@@ -131,6 +148,27 @@ const SolarSystem = ({ index }) => {
     );
 
     return [x, y, z, rotation];
+  }
+
+  function createBelt(innerRadius, outerRadius, texture)
+  {
+    const textureload = new THREE.TextureLoader();
+    const RingGeo = new THREE.RingGeometry(
+      innerRadius,
+      outerRadius
+    );
+    const RingMat = new THREE.MeshStandardMaterial({
+      map: textureload.load(texture),
+      side: THREE.DoubleSide,
+    });
+    const Ring = new THREE.Mesh(RingGeo, RingMat);
+    sceneRef.current.add(Ring);
+
+    Ring.position.x = 0;
+    Ring.position.y = 0;
+    Ring.position.z = 0;
+    Ring.rotation.x = -0.5 * Math.PI;
+    return Ring;
   }
 
   function createPlanet(size, texture, ring, clickEvent) {
@@ -174,8 +212,9 @@ const SolarSystem = ({ index }) => {
   }
 
   // Set up scene, camera, renderer in useEffect
-  const createSystem = () => {
+  const createSystem = (addLinks) => {
     const children = [];
+    const belts = [];
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -189,16 +228,11 @@ const SolarSystem = ({ index }) => {
     cameraRef.current = camera;
     rendererRef.current = renderer;
     childrenRef.current = children;
+    beltRef.current = belts;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     containerRef.current.appendChild(renderer.domElement);
-
-    const interactionManager = new InteractionManager(
-      renderer,
-      camera,
-      renderer.domElement
-    );
     ///////Init stuff
     const cubeTextureLoader = new THREE.CubeTextureLoader();
     scene.background = cubeTextureLoader.load([
@@ -220,6 +254,12 @@ const SolarSystem = ({ index }) => {
 
     const ambientLight = new THREE.AmbientLight(0xffffff);
     scene.add(ambientLight);
+
+    const mainBelt = 
+    {
+      belt:createBelt(157, 167, belt1),
+      speed:0.00005
+    }
 
     const sun = {
       planet: createPlanet(
@@ -359,16 +399,27 @@ const SolarSystem = ({ index }) => {
       ID: 9,
     };
 
-    interactionManager.add(sun.planet);
-    interactionManager.add(venus.planet);
-    interactionManager.add(mercury.planet);
-    interactionManager.add(earth.planet);
-    interactionManager.add(mars.planet);
-    interactionManager.add(jupiter.planet);
-    interactionManager.add(saturn.planet);
-    interactionManager.add(uranus.planet);
-    interactionManager.add(neptune.planet);
-    interactionManager.add(pluto.planet);
+    var interactionManager = null;
+
+    if(addLinks)
+    {
+      interactionManager = new InteractionManager(
+        renderer,
+        camera,
+        renderer.domElement
+      );
+
+      interactionManager.add(sun.planet);
+      interactionManager.add(venus.planet);
+      interactionManager.add(mercury.planet);
+      interactionManager.add(earth.planet);
+      interactionManager.add(mars.planet);
+      interactionManager.add(jupiter.planet);
+      interactionManager.add(saturn.planet);
+      interactionManager.add(uranus.planet);
+      interactionManager.add(neptune.planet);
+      interactionManager.add(pluto.planet); 
+    }
 
     addPlanet(sun);
     addPlanet(mercury);
@@ -381,11 +432,23 @@ const SolarSystem = ({ index }) => {
     addPlanet(neptune);
     addPlanet(pluto);
 
+    addBelt(mainBelt);
+
     /////////////////
     const animate = () => {
       requestAnimationFrame(animate);
+      if(addLinks)
+      {
+        interactionManager.update();
+      }
 
-      interactionManager.update();
+      console.log(beltRef.current);
+      for(let belt of beltRef.current){
+        const newRotation = getNewBeltRotation(belt.speed);
+
+        newRotation.ApplyToThreeObject(belt.belt);
+      }
+
       const curTime = performance.now() / 1700;
       for (let planet of childrenRef.current) {
         const newTransform = getNewPlanetTransform(
