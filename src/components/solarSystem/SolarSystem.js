@@ -263,7 +263,7 @@ const SolarSystem = ({ index }) => {
           window.location.href = "http://localhost:3000/planetinfo/3";
         }
       ),
-      planetConfig: { a: 140, b: 140, c: 15, d: 0.001, v: 0.05 },
+      planetConfig: { a: 140, b: 140, c: 25, d: 0.001, v: 0.05 },
       ID: 3,
     };
 
@@ -289,7 +289,7 @@ const SolarSystem = ({ index }) => {
           window.location.href = "http://localhost:3000/planetinfo/5";
         }
       ),
-      planetConfig: { a: 200, b: 200, c: 5, d: 0.001, v: 0.05 },
+      planetConfig: { a: 200, b: 200, c: 30, d: 0.001, v: 0.05 },
       ID: 5,
     };
 
@@ -306,7 +306,7 @@ const SolarSystem = ({ index }) => {
           window.location.href = "http://localhost:3000/planetinfo/6";
         }
       ),
-      planetConfig: { a: 270, b: 270, c: 17, d: 0.01, v: 0.09 },
+      planetConfig: { a: 270, b: 270, c: 20, d: 0.01, v: 0.09 },
       ID: 6,
     };
 
@@ -323,7 +323,7 @@ const SolarSystem = ({ index }) => {
           window.location.href = "http://localhost:3000/planetinfo/7";
         }
       ),
-      planetConfig: { a: 330, b: 330, c: -15, d: 0.01, v: 0.07 },
+      planetConfig: { a: 330, b: 330, c: -20, d: 0.01, v: 0.07 },
       ID: 7,
     };
 
@@ -336,7 +336,7 @@ const SolarSystem = ({ index }) => {
           window.location.href = "http://localhost:3000/planetinfo/8";
         }
       ),
-      planetConfig: { a: 350, b: 350, c: -1, d: 0.01, v: 0.3 },
+      planetConfig: { a: 350, b: 350, c: -10, d: 0.01, v: 0.3 },
       ID: 8,
     };
 
