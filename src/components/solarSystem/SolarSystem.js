@@ -71,7 +71,13 @@ const SolarSystem = ({ index }) => {
           newTextures[i] = texturesUrls[0][i];
           setTextures(newTextures);
         }
-        console.log(textures);
+
+        for (let i = texturesUrls[0].length; i < textures.length; i++) {
+          let newTextures = textures;
+          newTextures[i] = texturesUrls[0][texturesUrls[0].length - 1];
+          setTextures(newTextures);
+        }
+
         createSystem();
       } catch (error) {
         createSystem();
