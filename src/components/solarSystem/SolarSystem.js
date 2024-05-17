@@ -78,9 +78,9 @@ const SolarSystem = ({ index }) => {
           setTextures(newTextures);
         }
 
-        createSystem();
+        createSystem(false);
       } catch (error) {
-        createSystem();
+        createSystem(true);
       }
     };
 
@@ -174,7 +174,7 @@ const SolarSystem = ({ index }) => {
   }
 
   // Set up scene, camera, renderer in useEffect
-  const createSystem = () => {
+  const createSystem = (addLinks) => {
     const children = [];
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -193,12 +193,6 @@ const SolarSystem = ({ index }) => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     containerRef.current.appendChild(renderer.domElement);
-
-    const interactionManager = new InteractionManager(
-      renderer,
-      camera,
-      renderer.domElement
-    );
     ///////Init stuff
     const cubeTextureLoader = new THREE.CubeTextureLoader();
     scene.background = cubeTextureLoader.load([
@@ -359,16 +353,27 @@ const SolarSystem = ({ index }) => {
       ID: 9,
     };
 
-    interactionManager.add(sun.planet);
-    interactionManager.add(venus.planet);
-    interactionManager.add(mercury.planet);
-    interactionManager.add(earth.planet);
-    interactionManager.add(mars.planet);
-    interactionManager.add(jupiter.planet);
-    interactionManager.add(saturn.planet);
-    interactionManager.add(uranus.planet);
-    interactionManager.add(neptune.planet);
-    interactionManager.add(pluto.planet);
+    var interactionManager = null;
+
+    if(addLinks)
+    {
+      interactionManager = new InteractionManager(
+        renderer,
+        camera,
+        renderer.domElement
+      );
+
+      interactionManager.add(sun.planet);
+      interactionManager.add(venus.planet);
+      interactionManager.add(mercury.planet);
+      interactionManager.add(earth.planet);
+      interactionManager.add(mars.planet);
+      interactionManager.add(jupiter.planet);
+      interactionManager.add(saturn.planet);
+      interactionManager.add(uranus.planet);
+      interactionManager.add(neptune.planet);
+      interactionManager.add(pluto.planet); 
+    }
 
     addPlanet(sun);
     addPlanet(mercury);
@@ -384,8 +389,10 @@ const SolarSystem = ({ index }) => {
     /////////////////
     const animate = () => {
       requestAnimationFrame(animate);
-
-      interactionManager.update();
+      if(addLinks)
+      {
+        interactionManager.update();
+      }
       const curTime = performance.now() / 1700;
       for (let planet of childrenRef.current) {
         const newTransform = getNewPlanetTransform(
