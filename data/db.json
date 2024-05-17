@@ -23,21 +23,11 @@
     },
     {
       "id": "6599",
-      "name": "",
+      "name": "test3",
       "urls": [
         [
           "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715927940/floppface_lw7afl.jpg",
           "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715927946/earth_lqouky.jpg"
-        ]
-      ]
-    },
-    {
-      "id": "6042",
-      "name": "",
-      "urls": [
-        [
-          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715937235/earth_nbyiq3.jpg",
-          "https://res.cloudinary.com/dbhq2lekx/image/upload/v1715937238/floppface_vkelgv.jpg"
         ]
       ]
     }
