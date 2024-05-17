@@ -10,16 +10,20 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     color: white;
+    gap: 20px;
 }
 
 /* dropzone */
 
-.add-meal__dropzone {
-    border: 1px dashed #ccc;
-    /* width: 50%;
-    text-align: center;*/
-    padding: 100px;
-    /* border-radius: 50%; */
+.add__dropzone {
+    border: 1px dashed white;
+    width: 50%;
+    text-align: center;
+    padding: 50px;
+}
+
+.add__dropzone p {
+    margin: auto;
 }
 
 .add-meal__tags {
@@ -27,10 +31,29 @@
     color: #333;
 }
 
-.add-meal__dropzone p {
+.add__dropzone p {
     margin-top: 0;
+    width: 50%;
 }
 
 .addSystem-card-input {
     color: black;
+    padding: 5px;
+    width: 50%;
+}
+
+.system-submit {
+    width: 300px;
+    border: 1px solid white;
+    width: 50%;
+}
+
+.addSystem-card-header {
+    font-size: 34px;
+}
+
+.add__preview {
+    width: 50%;
+    display: flex;    
+    overflow-x: scroll;
 }
