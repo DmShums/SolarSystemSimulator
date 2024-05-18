@@ -3,12 +3,17 @@ import * as THREE from "three";
 import { InteractionManager } from "three.interactive";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RotationQuaternion } from "../../lib/QuaternionLibrary";
+
+/////////// uncomment to make flopaverse ///////////
+
 // import sky1 from "../../imgs/floppface.jpeg";
 // import sky2 from "../../imgs/floppaass.jpeg";
 // import sky3 from "../../imgs/floppatop.jpeg";
 // import sky4 from "../../imgs/floppaleft.jpeg";
 // import sky5 from "../../imgs/flopparight.jpeg";
 // import sky6 from "../../imgs/floppabottom.jpeg";
+
+/////////// uncomment to make flopaverse ///////////
 
 import sky1 from "../../imgs/box1.jpg";
 import sky2 from "../../imgs/box2.jpg";
@@ -211,7 +216,6 @@ const SolarSystem = ({ index }) => {
     return planet;
   }
 
-  // Set up scene, camera, renderer in useEffect
   const createSystem = (addLinks) => {
     const children = [];
     const belts = [];
@@ -233,7 +237,7 @@ const SolarSystem = ({ index }) => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     containerRef.current.appendChild(renderer.domElement);
-    ///////Init stuff
+
     const cubeTextureLoader = new THREE.CubeTextureLoader();
     scene.background = cubeTextureLoader.load([
       sky1,
@@ -434,7 +438,6 @@ const SolarSystem = ({ index }) => {
 
     addBelt(mainBelt);
 
-    /////////////////
     const animate = () => {
       requestAnimationFrame(animate);
       if(addLinks)
@@ -471,7 +474,6 @@ const SolarSystem = ({ index }) => {
 
     return () => {
       cancelAnimationFrame(animate);
-      //scene.remove(skybox);
       renderer.dispose();
       scene.traverse((obj) => {
         if (obj instanceof THREE.Mesh) {

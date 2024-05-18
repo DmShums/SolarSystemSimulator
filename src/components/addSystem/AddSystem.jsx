@@ -31,8 +31,6 @@ const AddSystem = () => {
 
         const data = await response.json();
 
-        // setImageUrls((prevUrls) => [...prevUrls, data.secure_url]);
-
         let urls = [...imageUrls];
         urls.push(data.secure_url);
         setImageUrls(urls);

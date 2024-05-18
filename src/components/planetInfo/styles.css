@@ -1,5 +1,4 @@
 .info {
-  /* background-color: #f0f0f0; */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-left: 33vh;
@@ -28,7 +27,6 @@
 }
 
 .info {
-  /* background-color: rgb(214, 212, 212); */
   border-radius: 50px 20px 50px 20px;
   background-size: 60% 70%;
 }

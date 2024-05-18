@@ -47,7 +47,6 @@ const MyThree = () => {
     animate();
 
     return () => {
-      // Cleanup function
       renderer.dispose();
 
       scene.traverse((obj) => {

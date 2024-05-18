@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./BurgerMenu.css";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 
 const BurgerMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [systemNames, setSystemNames] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSystems = async () => {
@@ -36,10 +36,9 @@ const BurgerMenu = () => {
     setIsMenuOpen(false);
   }
 
-  // Handle option change
   const handleOptionChange = (selectedOption) => {
-    const selectedIndex = selectedOption.value; // Get the index of the selected option
-    navigate(`/${selectedIndex}`); // Redirect to the selected option's index
+    const selectedIndex = selectedOption.value;
+    navigate(`/${selectedIndex}`);
   };
 
   const customStyles = {

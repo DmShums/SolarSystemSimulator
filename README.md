@@ -15,7 +15,7 @@ In our project, we utilized Three.js to simulate a solar system, taking advantag
 
 ## Instalation
 
-<mark>`https://github.com/DmShums/quat-rotator.git`</mark>
+<mark>`git clone https://github.com/DmShums/quat-rotator`</mark>
 
 ### Available Scripts
 

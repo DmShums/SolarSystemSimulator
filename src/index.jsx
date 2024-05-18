@@ -9,7 +9,6 @@ import WelcomePage from "./pages/WelcomePage";
 document.body.style.margin = 0;
 document.body.style.fontFamily = "Montserrat";
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
   {
@@ -32,9 +31,7 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  // <React.StrictMode>
   <RouterProvider router={router} />
-  // </React.StrictMode>
 );
 
 reportWebVitals();
